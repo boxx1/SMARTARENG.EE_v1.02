@@ -1,0 +1,1036 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Smart Areng — обучение ИИ для команд</title>
+<script src="./support.js"></script>
+<script src="/_blob/a61f78e1b791de1f1011ed862291781f"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500&amp;family=Fira+Sans:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#3F6387}
+a{color:#FFFFFF}
+button{font:inherit;cursor:pointer}
+input{font:inherit}
+.pill{transition:background .25s ease}
+.pill:hover{background:rgba(255,255,255,.28)}
+.cmain{transition:background .2s ease}
+.cmain:hover{background:rgba(255,255,255,.06)}
+.tog{transition:background .2s ease, color .2s ease, box-shadow .2s ease}
+.tog:hover{box-shadow:0 0 14px rgba(149,203,247,.7)}
+.rm:hover{background:rgba(22,38,60,.1)}
+.lnk:hover{color:#16263C}
+.btn:hover{filter:brightness(1.12)}
+.pill:focus-visible,.tog:focus-visible,.rm:focus-visible,.btn:focus-visible,.lnk:focus-visible,.cmain:focus-visible,.fld:focus-visible{outline:2px solid #95CBF7;outline-offset:2px}
+.chev{transition:transform .3s ease}
+@keyframes inA{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+.in{animation:inA .3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes glowOnce{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
+.pzT,.pzB{position:absolute;left:0;right:0;height:2px;pointer-events:none;background:linear-gradient(90deg,rgba(149,203,247,0),#95CBF7 42%,#EEF5FA 50%,#95CBF7 58%,rgba(149,203,247,0));animation:sweep .9s ease-out both}
+.pzT{top:0}
+.pzB{bottom:0;animation-direction:reverse}
+.pzG{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 1.5px rgba(149,203,247,.95),inset 0 0 20px rgba(149,203,247,.35);animation:glowOnce .9s ease-out both}
+@keyframes dIn{from{opacity:0}to{opacity:1}}
+.dlg{animation:dIn .2s ease both}
+.mbar{display:none}
+@media (max-width: 720px){
+.frame{padding:0 !important}
+.sheet{border-radius:0 !important}
+.cols{grid-template-columns:minmax(0,1fr) !important}
+.specs{grid-template-columns:minmax(0,1fr) !important}
+.specs > div{border-right:0 !important;border-bottom:1px solid rgba(255,255,255,.15)}
+.nav,.hdrCta,.dndHint{display:none !important}
+.hdr{padding:14px 16px 12px !important}
+.sheet{box-shadow:none !important}
+.hero{height:720px !important}
+.heroInner{height:720px !important}
+.heroTitle{left:16px !important;right:16px !important;top:250px !important}
+.heroTitle p{margin-left:0 !important;text-align:center}
+.heroPill{left:16px !important;right:16px !important;bottom:150px !important;justify-content:space-between}
+.heroNote{left:16px !important;right:16px !important;width:auto !important;bottom:24px !important}
+.pad{padding-left:16px !important;padding-right:16px !important}
+.mbar{display:flex !important}
+.dlgBox{max-height:100vh !important;height:100vh;border-radius:0 !important;clip-path:none !important}
+.dlgWrap{padding:0 !important}
+}
+@media (max-width: 900px){.specs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion: reduce){.in,.dlg{animation:none}.pzT,.pzB{display:none}.pzG{animation-duration:1.4s}.chev{transition:none}}
+</style>
+</helmet>
+<div class="frame" style="min-height: 100vh; box-sizing: border-box; padding: 0 clamp(14px, 3.4vw, 60px); font-family: 'Fira Sans', sans-serif; color: #FFFFFF; background: linear-gradient(90deg, rgba(4,10,19,.32) 0%, rgba(4,10,19,0) 3%, rgba(4,10,19,0) 97%, rgba(4,10,19,.32) 100%), linear-gradient(180deg, #4A6D90 0px, #3F6387 900px, #355A7E 1800px, #2C4B6C 100%)">
+
+<div class="sheet" style="position: relative; overflow: hidden; max-width: 1680px; margin: 0 auto; box-shadow: 1px 0 0 rgba(238,245,250,.22), -1px 0 0 rgba(238,245,250,.22), 16px 0 30px -12px rgba(4,10,19,.55), -16px 0 30px -12px rgba(4,10,19,.55); background: #6285A6">
+<header class="hdr" style="position: absolute; z-index: 4; left: 0; right: 0; top: 0; max-width: 1320px; margin: 0 auto; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 48px 16px; flex-wrap: wrap">
+<dc-import name="LogoMark" variant="2" hint-size="260px,40px"></dc-import>
+<nav class="nav" aria-label="Основное меню" style="display: flex; gap: 14px; flex-wrap: wrap; font-family: 'Jura', sans-serif; font-size: 14px; letter-spacing: 0.06em">
+<a class="pill" href="#build" style="text-decoration: none; padding: 9px 16px; border-radius: 10px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.45)">МОДУЛИ</a>
+<a class="pill" href="#specs" style="text-decoration: none; padding: 9px 16px; border-radius: 10px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.45)">РЕКВИЗИТЫ</a>
+<a class="pill" href="#kontakt" style="text-decoration: none; padding: 9px 16px; border-radius: 10px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.45)">КОНТАКТ</a>
+</nav>
+<a class="pill hdrCta" href="#build" style="text-decoration: none; font-family: 'Jura', sans-serif; font-size: 14px; letter-spacing: 0.06em; padding: 10px 18px; border-radius: 10px; background: linear-gradient(100deg, #2A5279 0%, #406688 45%, #7792AD 100%); border: 1px solid rgba(238,245,250,.45); box-shadow: 0 10px 24px rgba(4,10,19,.3); display: inline-flex; gap: 12px; align-items: center">СОБРАТЬ ПРОГРАММУ <span aria-hidden="true">→</span></a>
+</header>
+<!-- light / shade zones, lower page -->
+<div data-zones="lower" aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 900px 520px at 100% 1800px, rgba(181,200,220,0.7) 0%, rgba(181,200,220,0.56) 18%, rgba(181,200,220,0.385) 38%, rgba(181,200,220,0.21) 58%, rgba(181,200,220,0.084) 78%, rgba(181,200,220,0.0) 100%), radial-gradient(ellipse 1000px 620px at 35% 2400px, rgba(181,200,220,0.62) 0%, rgba(181,200,220,0.496) 18%, rgba(181,200,220,0.341) 38%, rgba(181,200,220,0.186) 58%, rgba(181,200,220,0.074) 78%, rgba(181,200,220,0.0) 100%), radial-gradient(ellipse 1200px 760px at 0% 2050px, rgba(22,38,60,1.0) 0%, rgba(22,38,60,0.86) 14%, rgba(22,38,60,0.68) 28%, rgba(22,38,60,0.48) 44%, rgba(22,38,60,0.3) 60%, rgba(22,38,60,0.15) 76%, rgba(22,38,60,0.05) 90%, rgba(22,38,60,0.0) 100%), radial-gradient(ellipse 1100px 800px at 100% 2650px, rgba(22,38,60,0.95) 0%, rgba(22,38,60,0.817) 14%, rgba(22,38,60,0.646) 28%, rgba(22,38,60,0.456) 44%, rgba(22,38,60,0.285) 60%, rgba(22,38,60,0.142) 76%, rgba(22,38,60,0.048) 90%, rgba(22,38,60,0.0) 100%), radial-gradient(ellipse 1300px 700px at 0% 100%, rgba(22,38,60,0.9) 0%, rgba(22,38,60,0.774) 14%, rgba(22,38,60,0.612) 28%, rgba(22,38,60,0.432) 44%, rgba(22,38,60,0.27) 60%, rgba(22,38,60,0.135) 76%, rgba(22,38,60,0.045) 90%, rgba(22,38,60,0.0) 100%)"></div>
+<!-- light / shade zones, first screen (per the sketch: dark top corners, light diagonal band, dark below the diagonal) -->
+<div data-zones="first" aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 1700px; pointer-events: none; background: radial-gradient(ellipse 460px 300px at 100% 520px, rgba(181,200,220,0.75) 0%, rgba(181,200,220,0.6) 18%, rgba(181,200,220,0.413) 38%, rgba(181,200,220,0.225) 58%, rgba(181,200,220,0.09) 78%, rgba(181,200,220,0.0) 100%), radial-gradient(ellipse 520px 300px at 0% 860px, rgba(181,200,220,0.7) 0%, rgba(181,200,220,0.56) 18%, rgba(181,200,220,0.385) 38%, rgba(181,200,220,0.21) 58%, rgba(181,200,220,0.084) 78%, rgba(181,200,220,0.0) 100%), radial-gradient(ellipse 820px 960px at 0% 0px, rgba(22,38,60,1.0) 0%, rgba(22,38,60,0.9) 20%, rgba(22,38,60,0.72) 40%, rgba(22,38,60,0.5) 58%, rgba(22,38,60,0.28) 74%, rgba(22,38,60,0.1) 88%, rgba(22,38,60,0.0) 100%), radial-gradient(ellipse 760px 580px at 100% 0px, rgba(22,38,60,1.0) 0%, rgba(22,38,60,0.9) 20%, rgba(22,38,60,0.72) 40%, rgba(22,38,60,0.5) 58%, rgba(22,38,60,0.28) 74%, rgba(22,38,60,0.1) 88%, rgba(22,38,60,0.0) 100%), linear-gradient(152deg, rgba(181,200,220,0) 10%, rgba(181,200,220,.18) 24%, rgba(200,215,230,.32) 36%, rgba(181,200,220,.2) 45%, rgba(181,200,220,.04) 51%, rgba(22,38,60,.12) 55%, rgba(22,38,60,.36) 63%, rgba(22,38,60,.64) 72%, rgba(22,38,60,.86) 81%, #16263C 90%); -webkit-mask-image: linear-gradient(180deg, #000 0px, #000 1000px, rgba(0,0,0,.85) 1150px, rgba(0,0,0,.55) 1300px, rgba(0,0,0,.25) 1450px, rgba(0,0,0,.07) 1580px, transparent 1700px); mask-image: linear-gradient(180deg, #000 0px, #000 1000px, rgba(0,0,0,.85) 1150px, rgba(0,0,0,.55) 1300px, rgba(0,0,0,.25) 1450px, rgba(0,0,0,.07) 1580px, transparent 1700px)"></div>
+
+
+<div aria-hidden="true" style="position: absolute; inset: 0; display: flex; justify-content: center; pointer-events: none">
+<div style="width: 100%; max-width: 1320px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-right: 1px solid rgba(255,255,255,.14)">
+<div style="border-left: 1px solid rgba(255,255,255,.14)"></div><div style="border-left: 1px solid rgba(255,255,255,.14)"></div><div style="border-left: 1px solid rgba(255,255,255,.14)"></div><div style="border-left: 1px solid rgba(255,255,255,.14)"></div>
+</div>
+</div>
+
+<!-- HERO -->
+<section id="top" class="hero" style="position: relative; height: 800px">
+<div data-zones="hero" aria-hidden="true" style="position: absolute; inset: 0; background: radial-gradient(ellipse 25% 46% at 50% 0%, rgba(238,245,250,0.85) 0%, rgba(238,245,250,0.68) 18%, rgba(238,245,250,0.468) 38%, rgba(238,245,250,0.255) 58%, rgba(238,245,250,0.102) 78%, rgba(238,245,250,0.0) 100%), radial-gradient(ellipse 46% 19% at 50% 80%, rgba(22,38,60,.26) 0%, rgba(22,38,60,.16) 30%, rgba(22,38,60,.06) 65%, rgba(22,38,60,0) 100%)"></div>
+<canvas data-gl="hero" aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 100%; height: 780px; z-index: 1"></canvas>
+<div class="heroInner" style="position: relative; height: 800px; max-width: 1320px; margin: 0 auto">
+
+
+<div class="heroTitle" style="position: absolute; left: 48px; right: 48px; top: 350px; z-index: 2; pointer-events: none">
+<h1 style="margin: 0; font-family: 'Jura', sans-serif; font-weight: 300; font-size: clamp(52px, 9.2vw, 132px); line-height: 0.95; letter-spacing: 0.005em; text-align: center; text-shadow: 0 4px 40px rgba(22,38,60,.4)">УМНОЕ РАЗВИТИЕ</h1>
+<p style="margin: 14px 0 0 30px; font-size: 22px; text-shadow: 0 2px 16px rgba(22,38,60,.55)">Обучение ИИ для команд малого и среднего бизнеса</p>
+</div>
+
+<a class="pill heroPill" href="#build" style="position: absolute; z-index: 3; left: 48px; bottom: 70px; text-decoration: none; font-family: 'Jura', sans-serif; font-size: 15px; letter-spacing: 0.05em; padding: 10px 10px 10px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,.75); background: rgba(255,255,255,.06); display: inline-flex; gap: 14px; align-items: center">СОБЕРИТЕ СВОЮ ПРОГРАММУ <span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,.25); display: inline-flex; align-items: center; justify-content: center">↓</span></a>
+
+<div class="heroNote" style="position: absolute; z-index: 3; right: 48px; bottom: 60px; width: 400px; padding: 18px 26px 20px 46px; background: linear-gradient(100deg, #2A5279 0%, #335B80 28%, #557799 66%, #8FA9C5 100%); box-shadow: inset 0 1px 0 rgba(238,245,250,.25); clip-path: polygon(28px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%); box-sizing: border-box">
+<span aria-hidden="true" style="position: absolute; left: 10px; top: -6px; bottom: -6px; width: 1.5px; background: rgba(238,245,250,.9); transform-origin: 0 100%; transform: skewX(-17deg)"></span>
+<p style="margin: 0; font-size: 15px; line-height: 1.45">Программу и расчёт можно приложить к ходатайству работодателя о koolitustoetus. Решение о поддержке принимает Töötukassa.</p>
+</div>
+</div>
+</section>
+
+<!-- BENEFIT + TRAINER STRIP -->
+<section aria-label="О пользе и преподавателе" class="pad" style="position: relative; max-width: 1320px; margin: 0 auto; padding: 14px 48px 0; box-sizing: border-box">
+<dc-import name="Strip" open="none" hint-size="100%,150px"></dc-import>
+</section>
+
+<!-- BUILDER -->
+<section id="build" class="pad" style="position: relative; max-width: 1320px; margin: 0 auto; padding: 56px 48px 72px; box-sizing: border-box">
+<h2 style="margin: 0 0 10px; font-family: 'Jura', sans-serif; font-weight: 300; font-size: clamp(36px, 4.8vw, 64px); line-height: 0.95">СОБЕРИТЕ ПРОГРАММУ</h2>
+<p style="margin: 0 0 30px; font-size: 17px; color: rgba(255,255,255,.92)">Нажмите на модуль, чтобы прочитать описание. Кнопка «+» добавляет его в программу.</p>
+
+<div class="cols" style="display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(16px, 2.2vw, 32px); align-items: start">
+
+<!-- LEFT: catalog -->
+<div style="min-width: 0">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 0 4px 12px; border-bottom: 1px solid rgba(255,255,255,.3); margin-bottom: 12px; font-family: 'Jura', sans-serif; letter-spacing: 0.08em">
+<span style="font-size: 16px">ВСЕ МОДУЛИ · {{ modCount }}</span>
+<span class="dndHint" style="font-size: 12.5px">«+» ИЛИ ПЕРЕТАЩИТЕ ВПРАВО</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{ catalog }}" as="m" hint-placeholder-count="12">
+<div draggable="{{ m.drag }}" onDragStart="{{ m.dragStart }}" onDragEnd="{{ m.dragEnd }}" style="{{ m.cardStyle }}">
+<div style="display: flex; align-items: stretch">
+<button type="button" class="cmain" aria-expanded="{{ m.exp }}" aria-controls="{{ m.detId }}" onClick="{{ m.toggleOpen }}" style="flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 12px; text-align: left; background: transparent; border: 0; color: #FFFFFF; padding: 14px 8px 14px 18px; min-height: 64px">
+<span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 5px">
+<span style="font-size: 17px; line-height: 1.25">{{ m.title }}</span>
+<span style="font-family: 'Jura', sans-serif; font-size: 13px; letter-spacing: 0.03em; color: rgba(255,255,255,.88)">{{ m.caption }}</span>
+</span>
+<svg class="chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="{{ m.chev }}"><path d="M6 9l6 6 6-6"></path></svg>
+</button>
+<div style="display: flex; align-items: center; padding: 0 12px 0 4px">
+<button type="button" class="tog" aria-pressed="{{ m.pressed }}" aria-label="{{ m.togLabel }}" title="{{ m.togLabel }}" onClick="{{ m.toggleAdd }}" style="{{ m.togStyle }}">
+<sc-if value="{{ m.showPlus }}" hint-placeholder-val="{{ true }}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></sc-if>
+<sc-if value="{{ m.showCheck }}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>
+</button>
+</div>
+</div>
+<sc-if value="{{ m.open }}" hint-placeholder-val="{{ false }}">
+<div id="{{ m.detId }}" class="in" style="padding: 2px 20px 18px 18px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid rgba(255,255,255,.14)">
+<div style="padding-top: 12px"><div style="font-family: 'Jura', sans-serif; font-size: 12px; letter-spacing: 0.12em; color: rgba(255,255,255,.85); padding-bottom: 4px">ЦЕЛЬ</div><div style="font-size: 15.5px; line-height: 1.45">{{ m.goal }}</div></div>
+<div><div style="font-family: 'Jura', sans-serif; font-size: 12px; letter-spacing: 0.12em; color: rgba(255,255,255,.85); padding-bottom: 6px">ТЕМЫ</div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 5px">
+<sc-for list="{{ m.topics }}" as="tp" hint-placeholder-count="3"><li style="display: flex; gap: 10px; font-size: 15.5px; line-height: 1.4"><span aria-hidden="true" style="flex: 0 0 5px; height: 5px; margin-top: 8px; border-radius: 50%; background: #95CBF7"></span>{{ tp.t }}</li></sc-for>
+</ul></div>
+<div><div style="font-family: 'Jura', sans-serif; font-size: 12px; letter-spacing: 0.12em; color: rgba(255,255,255,.85); padding-bottom: 4px">РЕЗУЛЬТАТ ДЛЯ УЧАСТНИКА</div><div style="font-size: 15.5px; line-height: 1.45">{{ m.result }}</div></div>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+
+<!-- RIGHT: the program -->
+<aside id="program" aria-label="Ваша программа" onDragOver="{{ over }}" onDragLeave="{{ leave }}" onDrop="{{ drop }}" style="{{ panelStyle }}">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding-bottom: 18px; border-bottom: 1px solid rgba(22,38,60,.15)">
+<div>
+<div aria-live="polite" style="font-family: 'Jura', sans-serif; font-weight: 300; font-size: clamp(42px, 5vw, 72px); line-height: 0.9; color: #16263C">{{ total }}</div>
+<div style="font-family: 'Jura', sans-serif; font-size: 13.5px; letter-spacing: 0.06em; color: #354D69; padding-top: 6px">{{ totalWord }}</div>
+</div>
+<div style="text-align: right">
+<div aria-live="polite" style="font-family: 'Jura', sans-serif; font-weight: 300; font-size: clamp(42px, 5vw, 72px); line-height: 0.9; color: #16263C">{{ perPerson }} €</div>
+<div style="font-family: 'Jura', sans-serif; font-size: 13.5px; letter-spacing: 0.06em; color: #354D69; padding-top: 6px">за участника</div>
+</div>
+</div>
+<p style="margin: 10px 0 0; font-size: 13px; color: #354D69">Пример расчёта: {{ rate }} € за академический час на участника.</p>
+
+<div style="display: flex; flex-direction: column; gap: 8px; padding-top: 16px">
+<sc-for list="{{ program }}" as="p" hint-placeholder-count="4">
+<div class="in" style="position: relative; display: flex; align-items: center; gap: 12px; padding: 12px 8px 12px 16px; background: rgba(238,245,250,.8); clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); box-shadow: inset 3px 0 0 #95CBF7; color: #16263C">
+<span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px">
+<span style="font-size: 15.5px; line-height: 1.25">{{ p.title }}</span>
+<span style="font-family: 'Jura', sans-serif; font-size: 12.5px; color: #354D69">{{ p.caption }}</span>
+</span>
+<span style="font-family: 'Jura', sans-serif; font-size: 14px; white-space: nowrap; color: #16263C">{{ p.price }} €</span>
+<button type="button" class="rm" onClick="{{ p.remove }}" aria-label="{{ p.rmLabel }}" title="Убрать из программы" style="flex: 0 0 40px; width: 40px; height: 40px; border: 0; border-radius: 8px; background: transparent; color: #16263C; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+<sc-if value="{{ p.pulse }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" class="pzG"></span><span aria-hidden="true" class="pzT"></span><span aria-hidden="true" class="pzB"></span></sc-if>
+</div>
+</sc-for>
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<p style="margin: 6px 0; font-size: 15px; color: #354D69">Программа пока пустая. Нажмите «+» у модуля или перетащите карточку сюда.</p>
+</sc-if>
+<div class="dndHint" style="{{ dropHint }}">ПЕРЕТАЩИТЕ МОДУЛЬ СЮДА</div>
+</div>
+
+<button type="button" class="lnk" onClick="{{ openPreview }}" disabled="{{ isEmpty }}" style="{{ previewLinkStyle }}">Посмотреть программу →</button>
+
+<button type="button" class="btn" onClick="{{ openQuote }}" disabled="{{ isEmpty }}" style="{{ ctaStyle }}">Получить ценовое предложение <span aria-hidden="true">→</span></button>
+<p style="margin: 10px 0 0; font-size: 13.5px; line-height: 1.4; color: #354D69">{{ ctaNote }}</p>
+</aside>
+</div>
+
+<div class="mbar" style="position: sticky; bottom: 0; z-index: 20; margin: 18px -16px 0; padding: 12px 16px; align-items: center; justify-content: space-between; gap: 12px; background: rgba(22,38,60,.88); backdrop-filter: blur(14px); border-top: 1px solid rgba(255,255,255,.25)">
+<span style="font-family: 'Jura', sans-serif; font-size: 15px">{{ total }} {{ totalWord }} · {{ perPerson }} € за участника</span>
+<a class="pill" href="#program" style="text-decoration: none; font-family: 'Jura', sans-serif; font-size: 13px; letter-spacing: 0.05em; padding: 10px 12px; min-height: 44px; box-sizing: border-box; border-radius: 10px; border: 1px solid rgba(255,255,255,.7); display: inline-flex; align-items: center">МОЯ ПРОГРАММА ↓</a>
+</div>
+</section>
+
+<!-- ORGANIZER -->
+<section id="specs" class="pad" style="position: relative; max-width: 1320px; margin: 0 auto; padding: 0 48px 64px; box-sizing: border-box">
+<h2 style="margin: 0 0 16px; font-family: 'Jura', sans-serif; font-weight: 400; font-size: 16px; letter-spacing: 0.12em">ОРГАНИЗАТОР И РЕКВИЗИТЫ</h2>
+<div class="specs" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: linear-gradient(100deg, rgba(22,38,60,.78) 0%, rgba(42,82,121,.66) 45%, rgba(85,119,153,.55) 100%); backdrop-filter: blur(16px); clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 26px 100%, 0 calc(100% - 26px))">
+<div style="padding: 24px 26px; border-right: 1px solid rgba(255,255,255,.15)">
+<div style="font-family: 'Jura', sans-serif; font-size: 12.5px; letter-spacing: 0.1em; opacity: .9">ОРГАНИЗАЦИЯ</div>
+<div style="font-size: 18px; padding-top: 8px">{{ org.name }}</div>
+<div style="font-size: 14.5px; padding-top: 4px">Registrikood: <span style="{{ org.regStyle }}">{{ org.reg }}</span></div>
+<div style="font-size: 14.5px; padding-top: 2px">Адрес: <span style="{{ org.addrStyle }}">{{ org.addr }}</span></div>
+</div>
+<div style="padding: 24px 26px; border-right: 1px solid rgba(255,255,255,.15)">
+<div style="font-family: 'Jura', sans-serif; font-size: 12.5px; letter-spacing: 0.1em; opacity: .9">EHIS</div>
+<sc-if value="{{ org.hasEhis }}" hint-placeholder-val="{{ false }}"><div style="font-size: 15.5px; padding-top: 8px">{{ org.ehisText }}</div><a href="{{ org.ehisUrl }}" target="_blank" rel="noopener" style="display: inline-block; padding-top: 6px; font-size: 14.5px">Запись в EHIS ↗</a></sc-if>
+<sc-if value="{{ org.noEhis }}" hint-placeholder-val="{{ true }}"><div style="font-size: 15.5px; padding-top: 8px; opacity: .8; border-bottom: 1px dashed rgba(255,255,255,.5); display: inline-block">не указано</div></sc-if>
+</div>
+<div style="padding: 24px 26px; border-right: 1px solid rgba(255,255,255,.15)">
+<div style="font-family: 'Jura', sans-serif; font-size: 12.5px; letter-spacing: 0.1em; opacity: .9">ПРЕПОДАВАТЕЛЬ</div>
+<div style="font-size: 18px; padding-top: 8px">{{ trainer.name }}</div>
+<a href="https://ailabor.dev" target="_blank" rel="noopener" style="display: inline-block; padding-top: 4px; font-size: 14.5px">ailabor.dev ↗</a>
+</div>
+<div id="kontakt" style="padding: 24px 26px">
+<div style="font-family: 'Jura', sans-serif; font-size: 12.5px; letter-spacing: 0.1em; opacity: .9">КОНТАКТ</div>
+<div style="font-size: 15.5px; padding-top: 8px">E-mail: <span style="{{ org.mailStyle }}">{{ org.mail }}</span></div>
+<div style="font-size: 15.5px; padding-top: 2px">Телефон: <span style="{{ org.phoneStyle }}">{{ org.phone }}</span></div>
+<div style="font-size: 15.5px; padding-top: 2px">{{ org.site }}</div>
+</div>
+</div>
+<p style="margin: 14px 0 0; font-size: 13.5px; color: rgba(255,255,255,.9)">Решение о koolitustoetus принимает Töötukassa. © 2026 Smart Areng</p>
+</section>
+
+<!-- PROGRAM PREVIEW -->
+<sc-if value="{{ previewOpen }}" hint-placeholder-val="{{ false }}">
+<div class="dlg dlgWrap" style="position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 24px">
+<button type="button" aria-label="Закрыть" onClick="{{ closeModal }}" style="position: absolute; inset: 0; border: 0; background: rgba(4,10,19,.55); backdrop-filter: blur(6px); cursor: default"></button>
+<div class="dlgBox" role="dialog" aria-modal="true" aria-labelledby="pv-h" style="position: relative; width: 100%; max-width: 760px; max-height: 88vh; overflow-y: auto; box-sizing: border-box; padding: 28px 30px 26px; color: #16263C; background: linear-gradient(150deg, #EEF5FA, #CFDCEA); clip-path: polygon(22px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%, 0 22px)">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px">
+<div>
+<div style="font-family: 'Jura', sans-serif; font-size: 12.5px; letter-spacing: 0.12em; color: #354D69">ПРОГРАММА ОБУЧЕНИЯ</div>
+<h2 id="pv-h" style="margin: 6px 0 0; font-family: 'Jura', sans-serif; font-weight: 300; font-size: 30px; line-height: 1.1">{{ pv.head }}</h2>
+<div style="font-size: 15px; color: #354D69; padding-top: 4px">{{ perPerson }} € за участника · пример расчёта</div>
+</div>
+<button type="button" class="rm" onClick="{{ closeModal }}" aria-label="Закрыть просмотр программы" style="flex: 0 0 44px; width: 44px; height: 44px; border: 1px solid rgba(22,38,60,.3); border-radius: 10px; background: transparent; color: #16263C; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</div>
+<ol style="margin: 22px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column">
+<sc-for list="{{ pv.items }}" as="it" hint-placeholder-count="4">
+<li style="padding: 16px 0; border-top: 1px solid rgba(22,38,60,.14); display: flex; gap: 16px">
+<span style="font-family: 'Jura', sans-serif; font-size: 15px; color: #2A547B; flex: 0 0 26px">{{ it.n }}</span>
+<div style="flex: 1 1 auto; min-width: 0">
+<div style="font-size: 17px; font-weight: 500">{{ it.title }}</div>
+<div style="font-family: 'Jura', sans-serif; font-size: 13px; color: #354D69; padding-top: 2px">{{ it.caption }}</div>
+<div style="font-size: 15px; line-height: 1.45; padding-top: 8px"><b style="font-weight: 500">Цель.</b> {{ it.goal }}</div>
+<ul style="margin: 6px 0 0; padding: 0 0 0 18px; font-size: 15px; line-height: 1.45">
+<sc-for list="{{ it.topics }}" as="tp" hint-placeholder-count="3"><li>{{ tp.t }}</li></sc-for>
+</ul>
+<div style="font-size: 15px; line-height: 1.45; padding-top: 6px"><b style="font-weight: 500">Результат.</b> {{ it.result }}</div>
+</div>
+</li>
+</sc-for>
+</ol>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; padding-top: 18px; border-top: 1px solid rgba(22,38,60,.14)">
+<button type="button" class="btn" onClick="{{ openQuote }}" style="flex: 1 1 260px; min-height: 52px; border: 0; background: #16263C; color: #FFFFFF; font-family: 'Jura', sans-serif; font-size: 15px; letter-spacing: 0.04em; padding: 14px 18px; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)">Получить ценовое предложение →</button>
+<button type="button" class="rm" onClick="{{ closeModal }}" style="flex: 0 1 auto; min-height: 52px; border: 1px solid rgba(22,38,60,.35); border-radius: 0; background: transparent; color: #16263C; font-family: 'Jura', sans-serif; font-size: 15px; padding: 14px 18px">Вернуться к выбору</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- QUOTE FORM -->
+<sc-if value="{{ quoteOpen }}" hint-placeholder-val="{{ false }}">
+<div class="dlg dlgWrap" style="position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 24px">
+<button type="button" aria-label="Закрыть" onClick="{{ closeModal }}" style="position: absolute; inset: 0; border: 0; background: rgba(4,10,19,.55); backdrop-filter: blur(6px); cursor: default"></button>
+<div class="dlgBox" role="dialog" aria-modal="true" aria-labelledby="q-h" style="position: relative; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; box-sizing: border-box; padding: 28px 30px 26px; color: #16263C; background: linear-gradient(150deg, #EEF5FA, #CFDCEA); clip-path: polygon(22px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%, 0 22px)">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px">
+<h2 id="q-h" style="margin: 0; font-family: 'Jura', sans-serif; font-weight: 300; font-size: 30px; line-height: 1.1">Ценовое предложение</h2>
+<button type="button" class="rm" onClick="{{ closeModal }}" aria-label="Закрыть форму" style="flex: 0 0 44px; width: 44px; height: 44px; border: 1px solid rgba(22,38,60,.3); border-radius: 10px; background: transparent; color: #16263C; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</div>
+
+<label for="q-email" style="display: block; padding-top: 20px; font-family: 'Jura', sans-serif; font-size: 13px; letter-spacing: 0.08em; color: #354D69">{{ q.emailLabel }}</label>
+<input id="q-email" class="fld" type="email" autocomplete="email" value="{{ q.email }}" onInput="{{ q.setEmail }}" placeholder="name@company.ee" style="display: block; width: 100%; box-sizing: border-box; margin-top: 6px; min-height: 48px; padding: 12px 14px; border: 1px solid rgba(22,38,60,.35); border-radius: 0; background: #FFFFFF; color: #16263C; font-size: 16px">
+
+<label for="q-people" style="display: block; padding-top: 16px; font-family: 'Jura', sans-serif; font-size: 13px; letter-spacing: 0.08em; color: #354D69">КОЛИЧЕСТВО УЧАСТНИКОВ</label>
+<div style="display: flex; align-items: center; gap: 8px; margin-top: 6px">
+<button type="button" class="rm" onClick="{{ q.dec }}" aria-label="Меньше участников" style="width: 48px; height: 48px; border: 1px solid rgba(22,38,60,.35); background: transparent; color: #16263C; font-size: 20px">−</button>
+<input id="q-people" class="fld" type="number" inputmode="numeric" min="1" max="50" value="{{ q.people }}" onInput="{{ q.setPeople }}" style="width: 80px; min-height: 48px; box-sizing: border-box; text-align: center; border: 1px solid rgba(22,38,60,.35); border-radius: 0; background: #FFFFFF; color: #16263C; font-size: 18px">
+<button type="button" class="rm" onClick="{{ q.inc }}" aria-label="Больше участников" style="width: 48px; height: 48px; border: 1px solid rgba(22,38,60,.35); background: transparent; color: #16263C; font-size: 20px">+</button>
+</div>
+
+<div aria-live="polite" style="margin-top: 18px; padding: 16px 18px; background: rgba(22,38,60,.06); border-left: 3px solid #95CBF7">
+<div style="font-size: 15px; color: #354D69">{{ q.line1 }}</div>
+<div style="font-size: 15px; color: #354D69; padding-top: 4px">{{ q.line2 }}</div>
+<div style="font-family: 'Jura', sans-serif; font-weight: 300; font-size: 40px; line-height: 1; padding-top: 8px">{{ q.group }} €</div>
+<div style="font-size: 13px; color: #354D69; padding-top: 6px">Длительность программы не зависит от числа участников: {{ total }} {{ totalWord }}.</div>
+</div>
+
+<button type="button" class="lnk" aria-expanded="{{ q.compExp }}" aria-controls="q-company" onClick="{{ q.toggleCompany }}" style="margin-top: 16px; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0; border: 0; background: transparent; color: #2A547B; font-size: 15.5px; text-decoration: underline">Добавить реквизиты компании <span aria-hidden="true">{{ q.compSign }}</span></button>
+<sc-if value="{{ q.compOpen }}" hint-placeholder-val="{{ false }}">
+<div id="q-company" class="in" style="display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; padding-top: 6px">
+<label style="font-size: 13.5px; color: #354D69">Название компании<input class="fld" type="text" value="{{ q.cName }}" onInput="{{ q.setCName }}" style="display: block; width: 100%; box-sizing: border-box; margin-top: 4px; min-height: 44px; padding: 10px 12px; border: 1px solid rgba(22,38,60,.35); background: #FFFFFF; color: #16263C; font-size: 16px"></label>
+<label style="font-size: 13.5px; color: #354D69">Registrikood<input class="fld" type="text" inputmode="numeric" value="{{ q.cReg }}" onInput="{{ q.setCReg }}" style="display: block; width: 100%; box-sizing: border-box; margin-top: 4px; min-height: 44px; padding: 10px 12px; border: 1px solid rgba(22,38,60,.35); background: #FFFFFF; color: #16263C; font-size: 16px"></label>
+<label style="font-size: 13.5px; color: #354D69">Адрес<input class="fld" type="text" value="{{ q.cAddr }}" onInput="{{ q.setCAddr }}" style="display: block; width: 100%; box-sizing: border-box; margin-top: 4px; min-height: 44px; padding: 10px 12px; border: 1px solid rgba(22,38,60,.35); background: #FFFFFF; color: #16263C; font-size: 16px"></label>
+<label style="font-size: 13.5px; color: #354D69">Контактное лицо<input class="fld" type="text" value="{{ q.cContact }}" onInput="{{ q.setCContact }}" style="display: block; width: 100%; box-sizing: border-box; margin-top: 4px; min-height: 44px; padding: 10px 12px; border: 1px solid rgba(22,38,60,.35); background: #FFFFFF; color: #16263C; font-size: 16px"></label>
+</div>
+</sc-if>
+
+<sc-if value="{{ q.hasError }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 14px 0 0; font-size: 14.5px; color: #8A2A12">{{ q.error }}</p></sc-if>
+<button type="button" class="btn" onClick="{{ q.submit }}" disabled="{{ q.busy }}" style="{{ q.submitStyle }}">{{ q.submitText }}</button>
+<p style="margin: 10px 0 0; font-size: 13.5px; line-height: 1.4; color: #354D69">{{ q.note }}</p>
+<sc-if value="{{ q.hasStatus }}" hint-placeholder-val="{{ false }}"><p role="status" style="{{ q.statusStyle }}">{{ q.status }}</p></sc-if>
+</div>
+</div>
+</sc-if>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"rpm":{"editor":"range","default":0.08,"min":0,"max":3,"step":0.01,"unit":"об/мин","section":"Мозг: вращение"},"morph":{"editor":"range","default":0.8,"min":0,"max":12,"step":0.1,"unit":"цикл/мин","section":"Мозг: трансформация"},"depth":{"editor":"range","default":15,"min":0,"max":20,"step":0.5,"unit":"%","section":"Мозг: трансформация"},"width":{"editor":"range","default":65,"min":30,"max":120,"step":1,"unit":"% экрана","section":"Мозг: форма"},"brainShape":{"editor":"boolean","default":false,"section":"Мозг: форма"},"period":{"editor":"range","default":8,"min":3,"max":15,"step":0.5,"unit":"с","section":"Мозг: сердцебиение"},"amp":{"editor":"range","default":3.5,"min":0,"max":8,"step":0.5,"unit":"%","section":"Мозг: сердцебиение"},"impulse":{"editor":"range","default":100,"min":0,"max":300,"step":10,"unit":"%","section":"Мозг: сердцебиение"},"zoneSpeed":{"editor":"range","default":1.51,"min":0,"max":3,"step":0.01,"unit":"цикл/мин","section":"Фон: светлые и тёмные зоны"},"darkRange":{"editor":"range","default":35,"min":0,"max":100,"step":5,"unit":"% радиуса — смещение тёмных","section":"Фон: светлые и тёмные зоны"},"lightRange":{"editor":"range","default":70,"min":0,"max":100,"step":5,"unit":"% радиуса — смещение светлых","section":"Фон: светлые и тёмные зоны"},"sizeRange":{"editor":"range","default":24,"min":0,"max":50,"step":1,"unit":"% — изменение размера","section":"Фон: светлые и тёмные зоны"},"contrast":{"editor":"range","default":85,"min":0,"max":200,"step":5,"unit":"% — контраст зон","section":"Фон: светлые и тёмные зоны"},"darkSize":{"editor":"range","default":100,"min":30,"max":250,"step":5,"unit":"% — объём тёмных зон","section":"Фон: светлые и тёмные зоны"},"lightSize":{"editor":"range","default":100,"min":30,"max":250,"step":5,"unit":"% — объём светлых зон","section":"Фон: светлые и тёмные зоны"},"softness":{"editor":"range","default":100,"min":25,"max":300,"step":5,"unit":"% — плавность переходов","section":"Фон: светлые и тёмные зоны"},"$preview":{"width":1440,"height":2900}}'>
+/* ===== SA-CORE: single source for catalog cards, program preview and PDF ===== */
+/* Price: RATE € per academic hour per participant. A module may get its own fixed `cost` later (overrides h * RATE). */
+var RATE = 35;
+/* Mail delivery of the PDF: switch to true only when a mail service is connected and confirms sending. */
+var MAIL_ENABLED = false;
+/* Organizer: only verified data. null = not provided yet (shown as «не указано», never invented). */
+var ORG = {
+  name: 'MTÜ Smart Areng',
+  regCode: null,
+  address: null,
+  email: null,
+  phone: null,
+  ehisText: null,
+  ehisUrl: null,
+  site: 'smartareng.ee'
+};
+var TRAINER = {
+  name: 'Александр Богенс',
+  org: 'MTÜ Smart Areng',
+  bio: 'Я разрабатываю приложения и автоматизирую рабочие задачи с помощью ИИ. На практикумах показываю, как пройти путь от задачи до работающего прототипа.',
+  portfolio: 'https://ailabor.dev',
+  photo: null
+};
+var MODS = [
+  { id: 'f1', tool: 'Основы ИИ', h: 4, cost: null, title: 'Где ИИ помогает в работе и где ему нельзя доверять',
+    goal: 'Понять возможности и пределы ИИ-инструментов, чтобы выбирать задачи, где они действительно экономят время.',
+    topics: ['Как работают языковые модели и почему они ошибаются', 'Обзор инструментов: ChatGPT, Claude, Gemini, Copilot', 'Задачи, где ИИ ускоряет работу, и задачи, где нужен человек'],
+    result: 'Участник различает основные ИИ-инструменты и понимает, для каких рабочих задач их использовать.' },
+  { id: 'b1', tool: 'Безопасность и GDPR', h: 4, cost: null, title: 'Безопасная работа с данными клиентов',
+    goal: 'Пользоваться ИИ, не раскрывая персональные данные и коммерческую информацию.',
+    topics: ['Какие данные нельзя передавать в ИИ-сервисы', 'Настройки приватности и рабочие тарифы', 'Короткие правила работы с ИИ для команды'],
+    result: 'Участник применяет правила безопасной работы и знает, какие данные можно передавать в ИИ.' },
+  { id: 'f2', tool: 'Промптинг', h: 8, cost: null, title: 'Как ставить ИИ рабочие задачи',
+    goal: 'Получать от ИИ пригодный результат с первой-второй попытки.',
+    topics: ['Структура запроса: роль, контекст, пример, формат', 'Проверка и доработка ответа', 'Шаблоны запросов для задач отдела'],
+    result: 'Участник составляет запросы под свои задачи и проверяет ответы ИИ.' },
+  { id: 'p1', tool: 'Карта процессов', h: 8, cost: null, title: 'Где в работе отдела теряется время',
+    goal: 'Разложить рабочий процесс на шаги и найти ручную рутину.',
+    topics: ['Описание процесса по шагам', 'Повторы и ручной перенос данных', 'Оценка времени на рутинные операции'],
+    result: 'Участник составляет карту своего процесса с отмеченными местами для автоматизации.' },
+  { id: 'p2', tool: 'Приоритеты', h: 4, cost: null, title: 'Что автоматизировать в первую очередь',
+    goal: 'Выбрать задачи, которые быстрее всего дадут результат.',
+    topics: ['Оценка эффекта и сложности', 'Выбор пилотной задачи', 'Как измерить результат'],
+    result: 'Участник выбирает 2–3 задачи для автоматизации с понятным критерием успеха.' },
+  { id: 't1', tool: 'ИИ в офисных программах', h: 8, cost: null, title: 'Письма, протоколы и договоры с ИИ',
+    goal: 'Быстрее готовить и проверять рабочие документы.',
+    topics: ['Черновики писем и ответов клиентам', 'Протоколы встреч и сводки', 'Сверка и сокращение договоров'],
+    result: 'Участник готовит типовые документы с ИИ-ассистентом и проверяет результат.' },
+  { id: 't2', tool: 'NotebookLM', h: 8, cost: null, title: 'Поиск по инструкциям компании',
+    goal: 'Быстро находить ответы во внутренних документах компании.',
+    topics: ['Сбор инструкций, регламентов и прайсов в одну базу', 'Вопросы к базе и проверка первоисточника', 'Ввод новых сотрудников с помощью базы знаний'],
+    result: 'Участник находит ответ во внутренних инструкциях и проверяет его по первоисточнику.' },
+  { id: 't3', tool: 'Таблицы + ИИ', h: 8, cost: null, title: 'Отчёты из рабочих таблиц',
+    goal: 'Готовить повторяющиеся отчёты без ручного сведения данных.',
+    topics: ['Очистка и объединение выгрузок', 'Формулы и сводные таблицы с подсказками ИИ', 'Проверка расчётов'],
+    result: 'Участник готовит повторяющийся отчёт из рабочих таблиц.' },
+  { id: 't4', tool: 'n8n · Make · ИИ-агенты', h: 20, cost: null, title: 'Автоматическая передача данных между сервисами',
+    goal: 'Убрать ручной перенос данных между почтой, таблицами и CRM.',
+    topics: ['Сценарии автоматизации из 3–5 шагов', 'Подключение почты, таблиц и CRM', 'Контрольные точки для проверки человеком'],
+    result: 'Участник настраивает рабочую автоматизацию для одной задачи компании.' },
+  { id: 't5', tool: 'Codex · Claude Code', h: 20, cost: null, title: 'Скрипты и мини-инструменты без программиста',
+    goal: 'Решать небольшие технические задачи вместе с ИИ-разработчиком.',
+    topics: ['Техническое задание для ИИ', 'Запуск и проверка результата', 'Хранение кода и версий'],
+    result: 'Участник создаёт и запускает простой скрипт для своей задачи.' },
+  { id: 's1', tool: 'Вайбкодинг-практикум', h: 32, cost: null, title: 'Прототип приложения для задачи компании',
+    goal: 'Пройти путь от рабочей задачи до работающего прототипа.',
+    topics: ['Формулировка задачи и требований', 'Сборка прототипа с ИИ', 'Проверка на реальных данных'],
+    result: 'Участник собирает прототип приложения для конкретной задачи компании.' },
+  { id: 's2', tool: 'Внедрение', h: 8, cost: null, title: 'Как закрепить новые инструменты в команде',
+    goal: 'Сделать так, чтобы решения использовались и после обучения.',
+    topics: ['Роли и ответственные', 'Короткие правила работы с ИИ', 'План следующих шагов'],
+    result: 'Команда утверждает правила и план внедрения выбранных решений.' }
+];
+var BY = {};
+MODS.forEach(function (m) { BY[m.id] = m; });
+function price(m) { return m.cost != null ? m.cost : m.h * RATE; }
+function eur(v) { return String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+function plural(n, one, few, many) {
+  var a = Math.abs(n) % 100, b = a % 10;
+  if (a > 10 && a < 20) return many;
+  if (b > 1 && b < 5) return few;
+  if (b === 1) return one;
+  return many;
+}
+function hoursWord(n) { return plural(n, 'ак. час', 'ак. часа', 'ак. часов'); }
+function peopleWord(n) { return plural(n, 'участник', 'участника', 'участников'); }
+function modulesWord(n) { return plural(n, 'модуль', 'модуля', 'модулей'); }
+/* totals for a list of module ids and a group size */
+function calc(ids, people) {
+  var h = 0, per = 0;
+  ids.forEach(function (id) { h += BY[id].h; per += price(BY[id]); });
+  var n = Math.max(1, people | 0);
+  return { hours: h, perPerson: per, people: n, group: per * n, count: ids.length };
+}
+
+/* PDF: page 1 = price quote, then the program of the selected modules.
+   J = jsPDF constructor, F = { regular, medium, light } base64 TTF, o = { ids, people, email, company, date } */
+function buildQuotePdf(J, F, o) {
+  var doc = new J({ unit: 'mm', format: 'a4' });
+  doc.addFileToVFS('fs-regular.ttf', F.regular); doc.addFont('fs-regular.ttf', 'FS', 'normal');
+  doc.addFileToVFS('fs-medium.ttf', F.medium); doc.addFont('fs-medium.ttf', 'FSM', 'normal');
+  doc.addFileToVFS('jura-light.ttf', F.light); doc.addFont('jura-light.ttf', 'JL', 'normal');
+  var W = 210, H = 297, M = 18, CW = W - 2 * M;
+  var INK = [22, 38, 60], MUTED = [78, 106, 136], LINE = [207, 220, 234], BAND = [53, 77, 105], CYAN = [42, 84, 123];
+  var c = calc(o.ids, o.people);
+  var d = o.date || new Date();
+  function p2(x) { return (x < 10 ? '0' : '') + x; }
+  var dateStr = p2(d.getDate()) + '.' + p2(d.getMonth() + 1) + '.' + d.getFullYear();
+  var num = 'SA-' + d.getFullYear() + p2(d.getMonth() + 1) + p2(d.getDate()) + '-' + p2(d.getHours()) + p2(d.getMinutes());
+  var y;
+  function font(f, size, col) { doc.setFont(f, 'normal'); doc.setFontSize(size); doc.setTextColor(col[0], col[1], col[2]); }
+  function hr(yy) { doc.setDrawColor(LINE[0], LINE[1], LINE[2]); doc.setLineWidth(0.25); doc.line(M, yy, W - M, yy); }
+  function label(t, yy) { font('FS', 8.5, MUTED); doc.text(t.toUpperCase(), M, yy, { charSpace: 0.6 }); }
+  function band() {
+    doc.setFillColor(BAND[0], BAND[1], BAND[2]); doc.rect(0, 0, W, 30, 'F');
+    doc.setFillColor(149, 203, 247); doc.rect(0, 30, W, 0.8, 'F');
+    font('JL', 15, [255, 255, 255]); doc.text('SMΛRT ΛRENG', M, 18.5, { charSpace: 1.6 });
+    font('FS', 9, [255, 255, 255]); doc.text(ORG.site, W - M, 18.5, { align: 'right' });
+  }
+  function val(v) { return v ? String(v) : 'не указано'; }
+  function row(l, v, yy, strong) {
+    font('FS', 10, MUTED); doc.text(l, M, yy);
+    font(strong ? 'FSM' : 'FS', strong ? 12 : 10.5, v ? INK : MUTED);
+    var lines = doc.splitTextToSize(v || 'не указано', CW - 62);
+    doc.text(lines, M + 62, yy);
+    return yy + Math.max(1, lines.length) * (strong ? 5.4 : 5) + 3.2;
+  }
+  /* ---------- page 1: quote ---------- */
+  band();
+  y = 46; label('Ценовое предложение', y);
+  font('JL', 25, INK); doc.text('Обучение ИИ для команды', M, y + 11);
+  font('FS', 9.5, MUTED); doc.text('№ ' + num + '  ·  ' + dateStr, M, y + 18.5);
+  y += 30;
+  label('Кому', y); y += 6;
+  var to = [];
+  if (o.company && o.company.name) to.push(o.company.name);
+  if (o.company && o.company.regCode) to.push('Registrikood ' + o.company.regCode);
+  if (o.company && o.company.address) to.push(o.company.address);
+  if (o.company && o.company.contact) to.push(o.company.contact);
+  if (o.email) to.push(o.email);
+  font('FS', 10.5, INK); doc.text(to.length ? to : ['Получатель не указан'], M, y);
+  y += Math.max(1, to.length) * 5 + 6;
+  hr(y); y += 8;
+  label('Расчёт', y); y += 7;
+  y = row('Программа', c.count + ' ' + modulesWord(c.count) + ' · ' + c.hours + ' ' + hoursWord(c.hours), y);
+  y = row('Цена за участника', c.hours + ' ' + hoursWord(c.hours) + ' × ' + RATE + ' € = ' + eur(c.perPerson) + ' €', y);
+  y = row('Участников', String(c.people), y);
+  hr(y - 1); y += 5;
+  font('FS', 10, MUTED); doc.text('Итого', M, y);
+  font('FSM', 17, INK); doc.text(eur(c.group) + ' €', M + 62, y + 0.5);
+  y += 8;
+  font('FS', 8.5, MUTED);
+  doc.text(doc.splitTextToSize('Расчёт предварительный: ' + RATE + ' € за академический час на одного участника. Условия оплаты и НДС уточняются в договоре.', CW), M, y);
+  y += 14; hr(y); y += 8;
+  label('Организатор', y); y += 7;
+  y = row('Организация', ORG.name, y);
+  y = row('Registrikood', ORG.regCode, y);
+  y = row('Адрес', ORG.address, y);
+  y = row('Сведения EHIS', ORG.ehisText ? ORG.ehisText + (ORG.ehisUrl ? ' · ' + ORG.ehisUrl : '') : null, y);
+  y = row('Контакт', [ORG.email, ORG.phone].filter(Boolean).join(' · ') || null, y);
+  y = row('Сайт', ORG.site, y);
+  y = row('Преподаватель', TRAINER.name, y);
+  y += 2; hr(y); y += 7;
+  font('FS', 9, MUTED);
+  doc.text(doc.splitTextToSize('Программу можно приложить к ходатайству работодателя о koolitustoetus. Решение о поддержке принимает Töötukassa.', CW), M, y);
+  /* ---------- program ---------- */
+  doc.addPage(); band(); y = 46;
+  label('Программа обучения', y);
+  font('JL', 22, INK); doc.text(c.count + ' ' + modulesWord(c.count) + ' · ' + c.hours + ' ' + hoursWord(c.hours), M, y + 10);
+  y += 22;
+  o.ids.forEach(function (id, i) {
+    var m = BY[id];
+    font('FSM', 12.5, INK); var tl = doc.splitTextToSize(m.title, CW - 14);
+    font('FS', 10, INK);
+    var gl = doc.splitTextToSize(m.goal, CW - 14), rl = doc.splitTextToSize(m.result, CW - 14);
+    var tls = m.topics.map(function (t) { return doc.splitTextToSize(t, CW - 19); });
+    var need = tl.length * 5.6 + 6 + 10 + gl.length * 4.8 + 6 + tls.reduce(function (s, a) { return s + a.length * 4.8; }, 0) + 6 + rl.length * 4.8 + 10;
+    if (y + need > H - 22) { doc.addPage(); band(); y = 44; }
+    font('JL', 11, CYAN); doc.text((i < 9 ? '0' : '') + (i + 1), M, y);
+    font('FSM', 12.5, INK); doc.text(tl, M + 14, y);
+    y += tl.length * 5.6;
+    font('FS', 9, MUTED); doc.text(m.tool + ' · ' + m.h + ' ' + hoursWord(m.h), M + 14, y); y += 7;
+    font('FS', 8.5, MUTED); doc.text('ЦЕЛЬ', M + 14, y, { charSpace: 0.5 }); y += 4.6;
+    font('FS', 10, INK); doc.text(gl, M + 14, y); y += gl.length * 4.8 + 2.2;
+    font('FS', 8.5, MUTED); doc.text('ТЕМЫ', M + 14, y, { charSpace: 0.5 }); y += 4.6;
+    font('FS', 10, INK);
+    tls.forEach(function (lines) { doc.text('•', M + 15, y); doc.text(lines, M + 19, y); y += lines.length * 4.8; });
+    y += 2.2;
+    font('FS', 8.5, MUTED); doc.text('РЕЗУЛЬТАТ ОБУЧЕНИЯ', M + 14, y, { charSpace: 0.5 }); y += 4.6;
+    font('FS', 10, INK); doc.text(rl, M + 14, y); y += rl.length * 4.8 + 4;
+    hr(y); y += 8;
+  });
+  font('FSM', 11, INK); doc.text('Всего: ' + c.hours + ' ' + hoursWord(c.hours), M, y);
+  /* ---------- footer on every page ---------- */
+  var n = doc.getNumberOfPages();
+  for (var pg = 1; pg <= n; pg++) {
+    doc.setPage(pg);
+    font('FS', 8, MUTED);
+    doc.text('Smart Areng · ' + ORG.site + ' · ' + num, M, H - 10);
+    doc.text('стр. ' + pg + ' из ' + n, W - M, H - 10, { align: 'right' });
+  }
+  return { doc: doc, number: num };
+}
+/* ===== /SA-CORE ===== */
+
+/* ===== hero: brain-like cloud of glowing neurons (WebGL); settings are the saved Tweaks values ===== */
+function norm(a) { var l = Math.hypot(a[0], a[1], a[2]); return [a[0] / l, a[1] / l, a[2] / l]; }
+function icosphere(sub) {
+  var t = (1 + Math.sqrt(5)) / 2;
+  var v = [[-1, t, 0], [1, t, 0], [-1, -t, 0], [1, -t, 0], [0, -1, t], [0, 1, t], [0, -1, -t], [0, 1, -t], [t, 0, -1], [t, 0, 1], [-t, 0, -1], [-t, 0, 1]].map(norm);
+  var f = [[0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7, 10], [0, 10, 11], [1, 5, 9], [5, 11, 4], [11, 10, 2], [10, 7, 6], [7, 1, 8], [3, 9, 4], [3, 4, 2], [3, 2, 6], [3, 6, 8], [3, 8, 9], [4, 9, 5], [2, 4, 11], [6, 2, 10], [8, 6, 7], [9, 8, 1]];
+  for (var s = 0; s < sub; s++) {
+    var cache = {}, nf = [];
+    var mid = function (a, b) {
+      var k = a < b ? a + '_' + b : b + '_' + a;
+      if (cache[k] === undefined) { v.push(norm([(v[a][0] + v[b][0]) / 2, (v[a][1] + v[b][1]) / 2, (v[a][2] + v[b][2]) / 2])); cache[k] = v.length - 1; }
+      return cache[k];
+    };
+    f.forEach(function (tr) {
+      var a = tr[0], b = tr[1], c = tr[2], ab = mid(a, b), bc = mid(b, c), ca = mid(c, a);
+      nf.push([a, ab, ca], [b, bc, ab], [c, ca, bc], [ab, bc, ca]);
+    });
+    f = nf;
+  }
+  var seen = {}, e = [];
+  f.forEach(function (tr) {
+    [[tr[0], tr[1]], [tr[1], tr[2]], [tr[2], tr[0]]].forEach(function (p) {
+      var k = p[0] < p[1] ? p[0] + '_' + p[1] : p[1] + '_' + p[0];
+      if (!seen[k]) { seen[k] = 1; e.push(p); }
+    });
+  });
+  return { v: v, e: e };
+}
+var NET = icosphere(3);
+var GLOWW = 0.02, CAM = 4.0, NODE_HALF = 0.05;
+var NNODE = NET.v.length * 6, NLINK = NET.e.length * 6, NV = NNODE + NLINK;
+var LUB = 0.15, DUB = 0.5;
+function hash(x) { var s = Math.sin(x * 12.9898 + 78.233) * 43758.5453; return s - Math.floor(s); }
+var VS = [
+'attribute vec3 aP;attribute vec3 aN;attribute float aK;attribute float aF;',
+'uniform float uAsp;uniform float uCam;',
+'varying vec3 vN;varying float vK;varying float vF;',
+'void main(){vN=aN;vK=aK;vF=aF;vec3 v=aP-vec3(0.,0.,uCam);float f=2.25;float n=.1,fa=20.;',
+'gl_Position=vec4(v.x*f/uAsp,v.y*f,((fa+n)/(n-fa))*v.z+(2.*fa*n/(n-fa)),-v.z);}'
+].join('\n');
+var FS = [
+'precision highp float;',
+'varying vec3 vN;varying float vK;varying float vF;uniform float uMode;',
+'void main(){',
+'if(uMode>.5){float a=exp(-vN.x*vN.x*3.5)*vK;vec3 c=mix(vec3(.9,.96,1.),vec3(.35,.9,1.),clamp(vF,0.,1.));gl_FragColor=vec4(c*a,a);return;}',
+'vec2 q=vN.xy;float r2=dot(q,q);vec3 tint=mix(vec3(.93,.97,1.),vec3(.35,.9,1.),clamp(vK*3.,0.,1.));float g=vF*(1.+vK*2.);',
+'vec2 qg=q*vN.z;float r3=dot(qg,qg);float sk=smoothstep(.03,.22,vK);',
+'float a=((exp(-r3*5.)*.75+exp(-r3*40.)*.85)*(1.-sk*.4)+sk*(exp(-r2*30.)*.9+.55*exp(-abs(q.x)*22.-q.y*q.y*7.)+.55*exp(-abs(q.y)*22.-q.x*q.x*7.)))*g;',
+'gl_FragColor=vec4(tint*a,a);}'
+].join('\n');
+function heroGL(cv) {
+  var gl = cv.getContext('webgl', { antialias: true, alpha: true, premultipliedAlpha: true });
+  if (!gl) return null;
+  function sh(tp, src) { var s = gl.createShader(tp); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+  var pr = gl.createProgram();
+  gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS));
+  gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return null;
+  gl.useProgram(pr);
+  var data = new Float32Array(NV * 8);
+  var buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, data.byteLength, gl.DYNAMIC_DRAW);
+  var lp = gl.getAttribLocation(pr, 'aP'), ln = gl.getAttribLocation(pr, 'aN'), lk = gl.getAttribLocation(pr, 'aK'), lf = gl.getAttribLocation(pr, 'aF');
+  gl.enableVertexAttribArray(lp); gl.vertexAttribPointer(lp, 3, gl.FLOAT, false, 32, 0);
+  gl.enableVertexAttribArray(ln); gl.vertexAttribPointer(ln, 3, gl.FLOAT, false, 32, 12);
+  gl.enableVertexAttribArray(lk); gl.vertexAttribPointer(lk, 1, gl.FLOAT, false, 32, 24);
+  gl.enableVertexAttribArray(lf); gl.vertexAttribPointer(lf, 1, gl.FLOAT, false, 32, 28);
+  gl.disable(gl.DEPTH_TEST);
+  gl.clearColor(0, 0, 0, 0);
+  return {
+    gl: gl, cv: cv, data: data,
+    asp: gl.getUniformLocation(pr, 'uAsp'), cam: gl.getUniformLocation(pr, 'uCam'), mode: gl.getUniformLocation(pr, 'uMode'),
+    P: NET.v.map(function () { return [0, 0, 0]; }), K: NET.v.map(function () { return 0; }), FD: NET.v.map(function () { return 1; })
+  };
+}
+function brain(v, mp, depth) {
+  var x = v[0], y = v[1], z = v[2];
+  var r = 1
+    + depth * Math.sin(x * 2.6 + mp) * Math.sin(y * 2.9 + mp * 1.25 + 1.0) * Math.sin(z * 2.4 + mp * 0.83 + 2.0)
+    + 0.035 * Math.sin(x * 7.0 + y * 3.0 + mp * 0.42) * Math.sin(y * 8.0 - z * 5.0 + mp * 0.33);
+  r += 0.16 * Math.exp(-(Math.pow(x - 0.35, 2) / 0.08 + Math.pow(y + 0.45, 2) / 0.05));
+  r += 0.10 * Math.exp(-(Math.pow(x + 0.72, 2) / 0.04 + Math.pow(y + 0.6, 2) / 0.03));
+  r -= 0.07 * Math.exp(-(z * z) / 0.008) * Math.max(y, 0);
+  return [x * r * 1.5, y * r * (y < 0 ? 0.78 : 1.0), z * r * 1.08];
+}
+function brainStrict(v, mp, depth) {
+  var x = v[0], y = v[1], z = v[2], az = Math.abs(z);
+  var lat = Math.min(1, Math.max(0, (az - 0.25) / 0.5));
+  var md = Math.min(depth, 0.03);
+  var r = 1
+    + md * Math.sin(x * 2.6 + mp) * Math.sin(y * 2.9 + mp * 1.25 + 1.0) * Math.sin(z * 2.4 + mp * 0.83 + 2.0)
+    + 0.028 * Math.sin(x * 9.0 + y * 4.0 + mp * 0.3) * Math.sin(y * 10.0 - z * 6.0 + mp * 0.25);
+  r += 0.10 * Math.exp(-(Math.pow(x - 0.55, 2) / 0.06 + Math.pow(y - 0.15, 2) / 0.12));
+  r += 0.14 * Math.exp(-(Math.pow(x - 0.25, 2) / 0.07 + Math.pow(y + 0.42, 2) / 0.04)) * (0.4 + 0.6 * lat);
+  var ys = -0.3 + (0.35 - x) * 0.5;
+  if (x > -0.3 && x < 0.45) r -= 0.07 * Math.exp(-Math.pow(y - ys, 2) / 0.003) * lat;
+  r += 0.17 * Math.exp(-(Math.pow(x + 0.68, 2) / 0.035 + Math.pow(y + 0.62, 2) / 0.025));
+  r -= 0.07 * Math.exp(-(Math.pow(x + 0.55, 2) / 0.03 + Math.pow(y + 0.38, 2) / 0.006));
+  r += 0.24 * Math.exp(-(Math.pow(x + 0.2, 2) / 0.02 + Math.pow(y + 0.95, 2) / 0.03 + z * z / 0.02));
+  r -= 0.12 * Math.exp(-(z * z) / 0.006) * Math.max(y, 0);
+  return [x * r, y * r * (y < 0 ? 0.72 : 0.95), z * r * 1.0];
+}
+function beatEnv(s) { return Math.exp(-Math.pow((s - LUB) / 0.1, 2)) + 0.5 * Math.exp(-Math.pow((s - DUB) / 0.13, 2)); }
+function shape(v, mp, depth, cfg) { return cfg.strict ? brainStrict(v, mp, depth) : brain(v, mp, depth); }
+function heroFrame(R, dt, cfg) {
+  var gl = R.gl, cv = R.cv, d = R.data, P = R.P, K = R.K, FD = R.FD, N = NET.v.length;
+  var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  var W = Math.round(cv.clientWidth * dpr), H = Math.round(cv.clientHeight * dpr);
+  if (!W || !H) return;
+  var asp = W / H, FOC = 2.25;
+  R.ang = (R.ang === undefined ? 0.6 : R.ang) + dt * cfg.rpm * 2 * Math.PI / 60;
+  R.mp = (R.mp || 0) + dt * cfg.morph * 2 * Math.PI / 60;
+  R.bt = (R.bt || 0) + dt;
+  if (R.cyc === undefined) { R.cyc = 0; R.fresh = true; }
+  if (R.bt >= cfg.period) { R.bt -= cfg.period; R.cyc += 1; R.fresh = true; }
+  var ct = R.bt, depthM = cfg.depth / 100, amp = cfg.amp / 100;
+  var ay = R.ang, ax = 0.12 + Math.sin(R.mp * 0.3) * 0.05;
+  var cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax);
+  function rot(x, y, z) { var x1 = x * cy + z * sy, z1 = -x * sy + z * cy; return [x1, y * cx - z1 * sx, y * sx + z1 * cx]; }
+  if (R.fresh) {
+    R.fresh = false;
+    var best = 1e9, bi = 0;
+    for (var q = 0; q < N; q++) {
+      var bq = shape(NET.v[q], R.mp, depthM, cfg), pq = rot(bq[0], bq[1], bq[2]);
+      if (pq[2] > 0) { var dd = pq[0] * pq[0] + pq[1] * pq[1]; if (dd < best) { best = dd; bi = q; } }
+    }
+    R.start = bi;
+    var c = R.cyc;
+    R.field = [hash(c + 0.1) * 2 - 1, hash(c + 0.2) * 2 - 1, hash(c + 0.3) * 2 - 1, hash(c + 0.4) * 6.28];
+  }
+  var vs = NET.v[R.start], F = R.field, MAXARR = 2.85, cyc = R.cyc;
+  if (!R.ANG) { R.ANG = new Float32Array(N); R.JIT = new Float32Array(N); }
+  var mx = 0, my = 0;
+  for (var i = 0; i < N; i++) {
+    var v = NET.v[i];
+    var ang = Math.acos(Math.max(-1, Math.min(1, v[0] * vs[0] + v[1] * vs[1] + v[2] * vs[2])));
+    var fieldJ = 0.5 + 0.5 * Math.sin((v[0] * F[0] + v[1] * F[1] + v[2] * F[2]) * 3.2 + F[3]);
+    var jit = 0.6 * fieldJ + 0.4 * hash(i * 1.37 + cyc * 7.1);
+    R.ANG[i] = ang; R.JIT[i] = jit;
+    var bw = beatEnv(ct - (ang / Math.PI) * 0.5 * (0.7 + 0.6 * jit));
+    var tremor = Math.sin(v[0] * 13.0 + v[1] * 11.0 + v[2] * 9.0 + ct * 40.0);
+    var s0 = shape(v, R.mp, depthM, cfg);
+    var loc = 1 - amp * bw * 0.6 + amp * 0.5 * bw * tremor;
+    var p = rot(s0[0] * 0.95 * loc, s0[1] * 0.95 * loc, s0[2] * 0.95 * loc);
+    P[i][0] = p[0]; P[i][1] = p[1]; P[i][2] = p[2];
+    mx += p[0]; my += p[1];
+  }
+  mx /= N; my /= N;
+  var maxN = 0, maxX = 0, maxY = 0;
+  for (var a = 0; a < N; a++) {
+    P[a][0] -= mx; P[a][1] -= my;
+    var ndc = Math.abs(P[a][0]) * FOC / (asp * Math.max(0.5, CAM - P[a][2]));
+    if (ndc > maxN) maxN = ndc;
+    if (Math.abs(P[a][0]) > maxX) maxX = Math.abs(P[a][0]);
+    if (Math.abs(P[a][1]) > maxY) maxY = Math.abs(P[a][1]);
+  }
+  var target = maxN > 0 ? (cfg.width / 100) * 0.97 / maxN : 1;
+  R.sx = R.sx === undefined ? target : R.sx + (target - R.sx) * 0.04;
+  for (var i2 = 0; i2 < N; i2++) {
+    P[i2][0] *= R.sx;
+    var rr = Math.sqrt(Math.pow(P[i2][0] / (maxX * R.sx * 1.02), 2) + Math.pow(P[i2][1] / (maxY * 1.02), 2));
+    var edge = 1 - Math.min(1, Math.max(0, (rr - 0.3) / 0.7));
+    edge = edge * edge * (3 - 2 * edge);
+    var dpt = Math.min(1, Math.max(0, (P[i2][2] + 1.1) / 2.2));
+    FD[i2] = edge * (0.45 + 0.55 * dpt);
+    var tc = ct - DUB, kk = 0;
+    if (tc > 0) {
+      var arr = (R.ANG[i2] / Math.PI) * 1.9 * (0.5 + 1.0 * R.JIT[i2]);
+      var a2 = (1 / 3) * (1 - (1 / 3) * Math.min(1, arr / MAXARR)) * (cfg.impulse / 100);
+      kk = a2 * Math.exp(-Math.pow((tc - arr) / 0.22, 2));
+    }
+    K[i2] = kk;
+  }
+  var o = 0;
+  function put(px, py, pz, nx, ny, nz, aa, f) { d[o++] = px; d[o++] = py; d[o++] = pz; d[o++] = nx; d[o++] = ny; d[o++] = nz; d[o++] = aa; d[o++] = f; }
+  /* neurons: glowing points that flare into sparks while the impulse passes */
+  for (var j = 0; j < N; j++) {
+    var C = P[j], kj = K[j], base = NODE_HALF * (0.6 + 0.4 * FD[j]);
+    var hs = (NODE_HALF + 0.08 * Math.min(1, kj * 4)) * (0.6 + 0.4 * FD[j]);
+    var rz = base > 0 ? hs / base : 1;
+    put(C[0] - hs, C[1] - hs, C[2], -1, -1, rz, kj, FD[j]);
+    put(C[0] + hs, C[1] - hs, C[2], 1, -1, rz, kj, FD[j]);
+    put(C[0] + hs, C[1] + hs, C[2], 1, 1, rz, kj, FD[j]);
+    put(C[0] - hs, C[1] - hs, C[2], -1, -1, rz, kj, FD[j]);
+    put(C[0] + hs, C[1] + hs, C[2], 1, 1, rz, kj, FD[j]);
+    put(C[0] - hs, C[1] + hs, C[2], -1, 1, rz, kj, FD[j]);
+  }
+  for (var e = 0; e < NET.e.length; e++) {
+    var ia = NET.e[e][0], ib = NET.e[e][1], A = P[ia], B = P[ib];
+    var ke = (K[ia] + K[ib]) * 0.5, fe = (FD[ia] + FD[ib]) * 0.5;
+    var dx = B[0] - A[0], dy = B[1] - A[1], dz = B[2] - A[2];
+    var ex = (A[0] + B[0]) / 2, ey = (A[1] + B[1]) / 2, ez = (A[2] + B[2]) / 2;
+    var Vx = -ex, Vy = -ey, Vz = CAM - ez;
+    var sxv = dy * Vz - dz * Vy, syv = dz * Vx - dx * Vz, szv = dx * Vy - dy * Vx;
+    var sl = Math.hypot(sxv, syv, szv) || 1;
+    var w = GLOWW * (0.75 + 0.75 * Math.min(1, ke * 3));
+    sxv = sxv / sl * w; syv = syv / sl * w; szv = szv / sl * w;
+    var inten = (0.22 + 1.1 * ke) * fe;
+    var hue = Math.min(1, ke * 3);
+    put(A[0] - sxv, A[1] - syv, A[2] - szv, -1, 0, 0, inten, hue);
+    put(B[0] - sxv, B[1] - syv, B[2] - szv, -1, 0, 0, inten, hue);
+    put(B[0] + sxv, B[1] + syv, B[2] + szv, 1, 0, 0, inten, hue);
+    put(A[0] - sxv, A[1] - syv, A[2] - szv, -1, 0, 0, inten, hue);
+    put(B[0] + sxv, B[1] + syv, B[2] + szv, 1, 0, 0, inten, hue);
+    put(A[0] + sxv, A[1] + syv, A[2] + szv, 1, 0, 0, inten, hue);
+  }
+  if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+  gl.viewport(0, 0, W, H);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.uniform1f(R.asp, asp);
+  gl.uniform1f(R.cam, CAM);
+  gl.bufferSubData(gl.ARRAY_BUFFER, 0, d);
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.ONE, gl.ONE);
+  gl.uniform1f(R.mode, 1);
+  gl.drawArrays(gl.TRIANGLES, NNODE, NLINK);
+  gl.uniform1f(R.mode, 0);
+  gl.drawArrays(gl.TRIANGLES, 0, NNODE);
+  gl.disable(gl.BLEND);
+}
+/* ===== /hero ===== */
+
+/* ===== page logic ===== */
+var ASSETS = {
+  regular: '/_blob/a06055ad7c1fd1713b99e336e982efce',
+  medium: '/_blob/5b4a5bcf6fbb2f5ff942718ea7da14bc',
+  light: '/_blob/85b31785b80d89cff3ea41ebd4433ab0'
+};
+function b64(buf) {
+  var bytes = new Uint8Array(buf), s = '', CH = 0x8000;
+  for (var i = 0; i < bytes.length; i += CH) s += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+  return btoa(s);
+}
+var FONT_CACHE = null;
+function loadFonts() {
+  if (FONT_CACHE) return FONT_CACHE;
+  var get = function (u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error('font'); return r.arrayBuffer(); }).then(b64); };
+  FONT_CACHE = Promise.all([get(ASSETS.regular), get(ASSETS.medium), get(ASSETS.light)]).then(function (a) { return { regular: a[0], medium: a[1], light: a[2] }; });
+  FONT_CACHE.catch(function () { FONT_CACHE = null; });
+  return FONT_CACHE;
+}
+var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+var CLIP = 'clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);';
+
+
+/* ===== background zones: slow drift of light / dark fields (3x slower than the cloud morph) ===== */
+var ZONES = {"lower": [{"k": "r", "rx": 900.0, "rxu": "px", "ry": 520.0, "ryu": "px", "x": 100.0, "xu": "%", "y": 1800.0, "yu": "px", "s": "rgba(181,200,220,0.7) 0%, rgba(181,200,220,0.56) 18%, rgba(181,200,220,0.385) 38%, rgba(181,200,220,0.21) 58%, rgba(181,200,220,0.084) 78%, rgba(181,200,220,0.0) 100%"}, {"k": "r", "rx": 1000.0, "rxu": "px", "ry": 620.0, "ryu": "px", "x": 35.0, "xu": "%", "y": 2400.0, "yu": "px", "s": "rgba(181,200,220,0.62) 0%, rgba(181,200,220,0.496) 18%, rgba(181,200,220,0.341) 38%, rgba(181,200,220,0.186) 58%, rgba(181,200,220,0.074) 78%, rgba(181,200,220,0.0) 100%"}, {"k": "r", "rx": 1200.0, "rxu": "px", "ry": 760.0, "ryu": "px", "x": 0.0, "xu": "%", "y": 2050.0, "yu": "px", "s": "rgba(22,38,60,1.0) 0%, rgba(22,38,60,0.86) 14%, rgba(22,38,60,0.68) 28%, rgba(22,38,60,0.48) 44%, rgba(22,38,60,0.3) 60%, rgba(22,38,60,0.15) 76%, rgba(22,38,60,0.05) 90%, rgba(22,38,60,0.0) 100%"}, {"k": "r", "rx": 1100.0, "rxu": "px", "ry": 800.0, "ryu": "px", "x": 100.0, "xu": "%", "y": 2650.0, "yu": "px", "s": "rgba(22,38,60,0.95) 0%, rgba(22,38,60,0.817) 14%, rgba(22,38,60,0.646) 28%, rgba(22,38,60,0.456) 44%, rgba(22,38,60,0.285) 60%, rgba(22,38,60,0.142) 76%, rgba(22,38,60,0.048) 90%, rgba(22,38,60,0.0) 100%"}, {"k": "r", "rx": 1300.0, "rxu": "px", "ry": 700.0, "ryu": "px", "x": 0.0, "xu": "%", "y": 100.0, "yu": "%", "s": "rgba(22,38,60,0.9) 0%, rgba(22,38,60,0.774) 14%, rgba(22,38,60,0.612) 28%, rgba(22,38,60,0.432) 44%, rgba(22,38,60,0.27) 60%, rgba(22,38,60,0.135) 76%, rgba(22,38,60,0.045) 90%, rgba(22,38,60,0.0) 100%"}], "first": [{"k": "r", "rx": 460.0, "rxu": "px", "ry": 300.0, "ryu": "px", "x": 100.0, "xu": "%", "y": 520.0, "yu": "px", "s": "rgba(181,200,220,0.75) 0%, rgba(181,200,220,0.6) 18%, rgba(181,200,220,0.413) 38%, rgba(181,200,220,0.225) 58%, rgba(181,200,220,0.09) 78%, rgba(181,200,220,0.0) 100%"}, {"k": "r", "rx": 520.0, "rxu": "px", "ry": 300.0, "ryu": "px", "x": 0.0, "xu": "%", "y": 860.0, "yu": "px", "s": "rgba(181,200,220,0.7) 0%, rgba(181,200,220,0.56) 18%, rgba(181,200,220,0.385) 38%, rgba(181,200,220,0.21) 58%, rgba(181,200,220,0.084) 78%, rgba(181,200,220,0.0) 100%"}, {"k": "r", "rx": 820.0, "rxu": "px", "ry": 960.0, "ryu": "px", "x": 0.0, "xu": "%", "y": 0.0, "yu": "px", "s": "rgba(22,38,60,1.0) 0%, rgba(22,38,60,0.9) 20%, rgba(22,38,60,0.72) 40%, rgba(22,38,60,0.5) 58%, rgba(22,38,60,0.28) 74%, rgba(22,38,60,0.1) 88%, rgba(22,38,60,0.0) 100%"}, {"k": "r", "rx": 760.0, "rxu": "px", "ry": 580.0, "ryu": "px", "x": 100.0, "xu": "%", "y": 0.0, "yu": "px", "s": "rgba(22,38,60,1.0) 0%, rgba(22,38,60,0.9) 20%, rgba(22,38,60,0.72) 40%, rgba(22,38,60,0.5) 58%, rgba(22,38,60,0.28) 74%, rgba(22,38,60,0.1) 88%, rgba(22,38,60,0.0) 100%"}, {"k": "l", "a": 152.0, "st": [["rgba(181,200,220,0)", 10.0], ["rgba(181,200,220,.18)", 24.0], ["rgba(200,215,230,.32)", 36.0], ["rgba(181,200,220,.2)", 45.0], ["rgba(181,200,220,.04)", 51.0], ["rgba(22,38,60,.12)", 55.0], ["rgba(22,38,60,.36)", 63.0], ["rgba(22,38,60,.64)", 72.0], ["rgba(22,38,60,.86)", 81.0], ["#16263C", 90.0]]}], "hero": [{"k": "r", "rx": 25.0, "rxu": "%", "ry": 46.0, "ryu": "%", "x": 50.0, "xu": "%", "y": 0.0, "yu": "%", "s": "rgba(238,245,250,0.85) 0%, rgba(238,245,250,0.68) 18%, rgba(238,245,250,0.468) 38%, rgba(238,245,250,0.255) 58%, rgba(238,245,250,0.102) 78%, rgba(238,245,250,0.0) 100%"}, {"k": "raw", "s": "radial-gradient(ellipse 46% 19% at 50% 80%, rgba(22,38,60,.26) 0%, rgba(22,38,60,.16) 30%, rgba(22,38,60,.06) 65%, rgba(22,38,60,0) 100%)"}]};
+function zoneSplit(s) {
+  var out = [], d = 0, cur = '';
+  for (var i = 0; i < s.length; i++) { var ch = s[i]; if (ch === '(') d++; if (ch === ')') d--; if (ch === ',' && d === 0) { out.push(cur.trim()); cur = ''; } else cur += ch; }
+  if (cur.trim()) out.push(cur.trim());
+  return out;
+}
+function zoneStop(colour, pos) {
+  var c = colour.trim(), r;
+  if (c[0] === '#') r = [parseInt(c.substr(1, 2), 16), parseInt(c.substr(3, 2), 16), parseInt(c.substr(5, 2), 16), 1];
+  else { r = c.match(/[\d.]+/g).map(Number); if (r.length < 4) r.push(1); }
+  return { c: r.slice(0, 3).join(','), a: r[3], p: pos, dark: r[0] === 22 && r[1] === 38 && r[2] === 60 };
+}
+function zonePivot(st) {
+  /* position where opacity falls (or rises) through half of its maximum: the middle of the transition */
+  var mx = 0; st.forEach(function (s) { mx = Math.max(mx, s.a); });
+  for (var i = 1; i < st.length; i++) {
+    var a0 = st[i - 1].a - mx / 2, a1 = st[i].a - mx / 2;
+    if (a0 === 0) return st[i - 1].p;
+    if (a0 * a1 <= 0) return st[i - 1].p + (st[i].p - st[i - 1].p) * a0 / (a0 - a1);
+  }
+  return st[st.length - 1].p / 2;
+}
+function zonePrep(ZS) {
+  /* parse once: stop lists with numbers, the diagonal split into its light band and its dark field */
+  var R = {};
+  Object.keys(ZS).forEach(function (key) {
+    var out = [];
+    ZS[key].forEach(function (z) {
+      if (z.k === 'raw') { out.push(z); return; }
+      if (z.k === 'r') {
+        var st = zoneSplit(z.s).map(function (x) { var k = x.lastIndexOf(' '); return zoneStop(x.slice(0, k), parseFloat(x.slice(k + 1))); });
+        out.push({ k: 'r', rx: z.rx, rxu: z.rxu, ry: z.ry, ryu: z.ryu, x: z.x, xu: z.xu, y: z.y, yu: z.yu, st: st, dark: st[0].dark, pv: zonePivot(st) });
+        return;
+      }
+      var all = z.st.map(function (s) { return zoneStop(s[0], s[1]); });
+      var li = all.filter(function (s) { return !s.dark; }), dk = all.filter(function (s) { return s.dark; });
+      if (li.length) { li.push({ c: li[li.length - 1].c, a: 0, p: li[li.length - 1].p + 2 }); out.push({ k: 'l', a: z.a, st: li, dark: false, pv: zonePivot(li) }); }
+      if (dk.length) { dk.unshift({ c: dk[0].c, a: 0, p: dk[0].p - 2 }); out.push({ k: 'l', a: z.a, st: dk, dark: true, pv: zonePivot(dk) }); }
+    });
+    R[key] = out;
+  });
+  return R;
+}
+var ZP = zonePrep(ZONES);
+function zoneStops(st, pv, soft, shift, c) {
+  return st.map(function (s) {
+    var p = pv + (s.p - pv) * soft + shift;
+    return 'rgba(' + s.c + ',' + Math.min(1, s.a * c).toFixed(3) + ') ' + Math.max(0, p).toFixed(2) + '%';
+  }).join(', ');
+}
+function zoneCss(L, t, o) {
+  /* o: f cycles/min; dark/light drift (share of radius); size breathing; c contrast; dv/lv volume of dark/light zones; soft transition width */
+  var w = 2 * Math.PI * o.f / 60;
+  return L.map(function (z, i) {
+    if (z.k === 'raw') return z.s;
+    var fx = 1 + 0.18 * Math.sin(i * 2.1 + 0.4), fy = 1 + 0.18 * Math.cos(i * 1.7 + 1.1);
+    var p = i * 1.93;
+    var vol = z.dark ? o.dv : o.lv, amp = z.dark ? o.dark : o.light;
+    if (z.k === 'l') {
+      var da = o.dark * 8 * Math.sin(w * t * fx), sh = o.dark * 7 * Math.sin(w * t * fy) * Math.cos(p);
+      /* dark field: more volume = starts higher; light band: more volume = wider band */
+      var soft = z.dark ? o.soft : o.soft * vol, shift = z.dark ? sh - (vol - 1) * 22 : sh;
+      return 'linear-gradient(' + (z.a + da).toFixed(2) + 'deg, ' + zoneStops(z.st, z.pv, soft, shift, o.c) + ')';
+    }
+    var dx = amp * z.rx * vol * Math.cos(p) * Math.sin(w * t * fx), dy = amp * z.ry * vol * Math.sin(p) * Math.sin(w * t * fy);
+    var sz = o.size;
+    var sx = 1 + sz * (Math.sin(w * t * fy * 0.83 + p) - Math.sin(p)), sy = 1 + sz * (Math.sin(w * t * fx * 0.77 + p + 1.6) - Math.sin(p + 1.6));
+    sx = Math.max(0.2, sx) * vol; sy = Math.max(0.2, sy) * vol;
+    var pos = function (v, u, d, du) { return u === du ? (v + d).toFixed(1) + u : 'calc(' + v + u + ' + ' + d.toFixed(1) + du + ')'; };
+    return 'radial-gradient(ellipse ' + (z.rx * sx).toFixed(1) + z.rxu + ' ' + (z.ry * sy).toFixed(1) + z.ryu + ' at ' + pos(z.x, z.xu, dx, z.rxu) + ' ' + pos(z.y, z.yu, dy, z.ryu) + ', ' + zoneStops(z.st, z.pv, o.soft, 0, o.c) + ')';
+  }).join(', ');
+}
+/* ===== /background zones ===== */
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      prog: ['f2', 'p1', 't2', 't3'], open: {}, over: false, lastAdded: null,
+      modal: null,
+      form: { email: '', people: 3, compOpen: false, cName: '', cReg: '', cAddr: '', cContact: '' },
+      busy: false, error: '', status: '', statusKind: ''
+    };
+  }
+  componentDidMount() {
+    var self = this;
+    try { if (typeof claude !== 'undefined' && claude.use) this.dlP = claude.use('downloads'); } catch (e) { this.dlP = null; }
+    var cv = document.querySelector('canvas[data-gl="hero"]');
+    var R = cv ? heroGL(cv) : null;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var zEls = Array.prototype.slice.call(document.querySelectorAll('[data-zones]'));
+    var zT = 0, zLast = -1;
+    var last = null;
+    var tick = function (now) {
+      if (self.dead) return;
+      var dt = last === null ? 0 : Math.min(0.05, (now - last) / 1000);
+      last = now;
+      var pr = self.props || {};
+      if (R) heroFrame(R, reduce ? 0 : dt, {
+        rpm: pr.rpm ?? 0.08, morph: pr.morph ?? 0.8, depth: pr.depth ?? 15,
+        period: pr.period ?? 8, amp: pr.amp ?? 3.5, impulse: pr.impulse ?? 100,
+        width: pr.width ?? 65, strict: pr.brainShape ?? false
+      });
+      zT += dt;
+      if (zT - zLast >= 0.05) { /* ~20 updates/s is plenty for a drift this slow */
+        zLast = zT;
+        var o = { f: pr.zoneSpeed ?? 1.51, dark: (pr.darkRange ?? 35) / 100, light: (pr.lightRange ?? 70) / 100, size: (pr.sizeRange ?? 24) / 100, c: (pr.contrast ?? 85) / 100,
+                  dv: (pr.darkSize ?? 100) / 100, lv: (pr.lightSize ?? 100) / 100, soft: (pr.softness ?? 100) / 100 };
+        zEls.forEach(function (el) { var L = ZP[el.getAttribute('data-zones')]; if (L) el.style.backgroundImage = zoneCss(L, zT, o); });
+      }
+      if (!reduce) self.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+  componentWillUnmount() { this.dead = true; cancelAnimationFrame(this.raf); clearTimeout(this.pulseT); }
+  add(id) {
+    if (!BY[id] || this.state.prog.indexOf(id) >= 0) { if (this.state.over) this.setState({ over: false }); return; }
+    var self = this;
+    clearTimeout(this.pulseT);
+    this.setState({ prog: this.state.prog.concat([id]), over: false, lastAdded: id });
+    this.pulseT = setTimeout(function () { self.setState({ lastAdded: null }); }, 1500);
+  }
+  remove(id) {
+    this.setState({ prog: this.state.prog.filter(function (x) { return x !== id; }), lastAdded: this.state.lastAdded === id ? null : this.state.lastAdded });
+  }
+  setForm(patch) { this.setState({ form: Object.assign({}, this.state.form, patch), error: '', status: '' }); }
+  async makePdf() {
+    var f = this.state.form, self = this;
+    var email = f.email.trim();
+    if (MAIL_ENABLED && !EMAIL_RE.test(email)) { this.setState({ error: 'Укажите e-mail, на который отправить PDF.' }); return; }
+    if (!MAIL_ENABLED && email && !EMAIL_RE.test(email)) { this.setState({ error: 'Проверьте e-mail или оставьте поле пустым.' }); return; }
+    if (!this.state.prog.length) { this.setState({ error: 'Добавьте в программу хотя бы один модуль.' }); return; }
+    if (!(window.jspdf && window.jspdf.jsPDF)) { this.setState({ error: 'Модуль PDF не загрузился. Обновите страницу и попробуйте ещё раз.' }); return; }
+    this.setState({ busy: true, error: '', status: 'Готовим PDF…', statusKind: 'info' });
+    try {
+      var fonts = await loadFonts();
+      var company = f.compOpen ? { name: f.cName.trim(), regCode: f.cReg.trim(), address: f.cAddr.trim(), contact: f.cContact.trim() } : null;
+      var built = buildQuotePdf(window.jspdf.jsPDF, fonts, { ids: this.state.prog.slice(), people: f.people, email: email, company: company, date: new Date() });
+      var blob = built.doc.output('blob');
+      var name = 'Smart-Areng-pakkumine-' + built.number + '.pdf';
+      /* MAIL_ENABLED: here the PDF would go to the mail service; «Отправлено» only after it confirms. */
+      var dl = null;
+      try { dl = this.dlP ? await this.dlP : null; } catch (e) { dl = null; }
+      if (dl) {
+        try {
+          var res = await dl.save({ filename: name, data: blob });
+          self.setState({ busy: false, status: res && res.status === 'delivered' ? 'PDF передан.' : 'PDF сохранён на устройство.', statusKind: 'ok' });
+        } catch (err) {
+          var code = err && err.code;
+          var msg = code === 'declined' ? 'Сохранение отменено.' : code === 'rate_limited' ? 'Окно сохранения уже открыто — подтвердите или закройте его.' : 'Не удалось сохранить файл здесь. Попробуйте ещё раз.';
+          self.setState({ busy: false, status: msg, statusKind: 'warn' });
+        }
+      } else {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = name; a.rel = 'noopener';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 10000);
+        self.setState({ busy: false, status: 'Загрузка PDF начата. Если файл не появился, разрешите загрузки для этой страницы.', statusKind: 'info' });
+      }
+    } catch (e) {
+      self.setState({ busy: false, status: '', error: 'Не удалось подготовить PDF. Проверьте соединение и попробуйте ещё раз.' });
+    }
+  }
+  renderVals() {
+    var self = this, st = this.state, prog = st.prog, f = st.form;
+    var c = calc(prog, f.people);
+    var reduceList = function (arr) { return arr.map(function (t) { return { t: t }; }); };
+    var orgVal = function (v) { return v ? v : 'не указано'; };
+    var missStyle = function (v) { return v ? '' : 'opacity: .8; border-bottom: 1px dashed rgba(255,255,255,.5)'; };
+    return {
+      modCount: MODS.length,
+      rate: RATE,
+      total: c.hours, totalWord: hoursWord(c.hours), perPerson: eur(c.perPerson),
+      isEmpty: prog.length === 0,
+      catalog: MODS.map(function (m) {
+        var inP = prog.indexOf(m.id) >= 0, open = !!st.open[m.id];
+        return {
+          title: m.title, caption: m.tool + ' · ' + m.h + ' ' + hoursWord(m.h) + ' · ' + eur(price(m)) + ' €',
+          goal: m.goal, result: m.result, topics: reduceList(m.topics),
+          open: open, exp: open ? 'true' : 'false', detId: 'det-' + m.id,
+          chev: 'flex: 0 0 16px; transform: rotate(' + (open ? 180 : 0) + 'deg)',
+          showPlus: !inP, showCheck: inP, pressed: inP ? 'true' : 'false',
+          togLabel: inP ? 'Убрать «' + m.title + '» из программы' : 'Добавить «' + m.title + '» в программу',
+          drag: inP ? 'false' : 'true',
+          cardStyle: 'background: ' + (inP ? 'rgba(22,38,60,.66)' : 'rgba(22,38,60,.46)') + '; backdrop-filter: blur(14px); ' + CLIP + (inP ? ' box-shadow: inset 3px 0 0 #95CBF7;' : ''),
+          togStyle: 'width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; ' + (inP ? 'border: 1px solid #FFFFFF; background: #FFFFFF; color: #16263C' : 'border: 1px solid rgba(255,255,255,.8); background: rgba(255,255,255,.1); color: #FFFFFF'),
+          toggleOpen: function () { var o = Object.assign({}, self.state.open); o[m.id] = !o[m.id]; self.setState({ open: o }); },
+          toggleAdd: function () { if (self.state.prog.indexOf(m.id) >= 0) self.remove(m.id); else self.add(m.id); },
+          dragStart: function (e) { e.dataTransfer.setData('text/plain', m.id); e.dataTransfer.effectAllowed = 'copy'; },
+          dragEnd: function () { if (self.state.over) self.setState({ over: false }); }
+        };
+      }),
+      program: prog.map(function (id) {
+        var m = BY[id];
+        return {
+          title: m.title, caption: m.tool + ' · ' + m.h + ' ' + hoursWord(m.h), price: eur(price(m)),
+          pulse: st.lastAdded === id, rmLabel: 'Убрать «' + m.title + '» из программы',
+          remove: function () { self.remove(id); }
+        };
+      }),
+      panelStyle: 'min-width: 0; position: sticky; top: 24px; padding: clamp(18px, 2.2vw, 30px); color: #16263C; background: linear-gradient(150deg, rgba(238,245,250,.92), rgba(181,200,220,.82)); backdrop-filter: blur(24px) saturate(1.4); clip-path: polygon(26px 0, 100% 0, 100% calc(100% - 26px), calc(100% - 26px) 100%, 0 100%, 0 26px); box-sizing: border-box; ' + (st.over ? 'box-shadow: inset 0 0 0 2px #95CBF7, inset 0 0 40px rgba(149,203,247,.35)' : 'box-shadow: inset 0 0 0 1px rgba(255,255,255,.9)'),
+      dropHint: "margin-top: 4px; padding: 14px; text-align: center; border: 1.5px dashed " + (st.over ? '#2A547B' : 'rgba(22,38,60,.28)') + "; color: " + (st.over ? '#2A547B' : '#354D69') + "; font-family: 'Jura', sans-serif; font-size: 12.5px; letter-spacing: 0.1em",
+      previewLinkStyle: 'margin-top: 14px; display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; background: transparent; font-size: 16px; text-decoration: underline; ' + (prog.length ? 'color: #2A547B; cursor: pointer' : 'color: #4E6A88; cursor: default'),
+      ctaStyle: "width: 100%; margin-top: 8px; display: flex; justify-content: space-between; align-items: center; min-height: 56px; border: 0; font-family: 'Jura', sans-serif; font-size: 16px; letter-spacing: 0.04em; padding: 16px 20px; " + CLIP + (prog.length ? ' background: #16263C; color: #FFFFFF' : ' background: #8FA3B9; color: #E8EEF5; cursor: default'),
+      ctaNote: MAIL_ENABLED ? 'На почту придёт PDF с программой обучения, стоимостью и реквизитами организатора.' : 'Вы получите PDF с программой обучения, стоимостью и реквизитами организатора.',
+      over: function (e) { e.preventDefault(); if (!self.state.over) self.setState({ over: true }); },
+      leave: function (e) { if (e.currentTarget && e.relatedTarget && e.currentTarget.contains(e.relatedTarget)) return; self.setState({ over: false }); },
+      drop: function (e) { e.preventDefault(); self.add(e.dataTransfer.getData('text/plain')); },
+      openPreview: function () { if (self.state.prog.length) self.setState({ modal: 'preview' }); },
+      openQuote: function () { if (self.state.prog.length) self.setState({ modal: 'quote', error: '', status: '' }); },
+      closeModal: function () { self.setState({ modal: null }); },
+      previewOpen: st.modal === 'preview', quoteOpen: st.modal === 'quote',
+      pv: {
+        head: c.count + ' ' + modulesWord(c.count) + ' · ' + c.hours + ' ' + hoursWord(c.hours),
+        items: prog.map(function (id, i) {
+          var m = BY[id];
+          return { n: (i < 9 ? '0' : '') + (i + 1), title: m.title, caption: m.tool + ' · ' + m.h + ' ' + hoursWord(m.h), goal: m.goal, result: m.result, topics: reduceList(m.topics) };
+        })
+      },
+      q: {
+        emailLabel: MAIL_ENABLED ? 'E-MAIL ДЛЯ PDF' : 'E-MAIL (НЕОБЯЗАТЕЛЬНО, ПОЯВИТСЯ В PDF)',
+        email: f.email, people: f.people,
+        setEmail: function (e) { self.setForm({ email: e.target.value }); },
+        setPeople: function (e) { var n = parseInt(e.target.value, 10); self.setForm({ people: isNaN(n) ? 1 : Math.max(1, Math.min(50, n)) }); },
+        dec: function () { self.setForm({ people: Math.max(1, self.state.form.people - 1) }); },
+        inc: function () { self.setForm({ people: Math.min(50, self.state.form.people + 1) }); },
+        line1: c.hours + ' ' + hoursWord(c.hours) + ' × ' + RATE + ' € = ' + eur(c.perPerson) + ' € за участника',
+        line2: eur(c.perPerson) + ' € × ' + c.people + ' ' + peopleWord(c.people) + ' =',
+        group: eur(c.group),
+        compOpen: f.compOpen, compExp: f.compOpen ? 'true' : 'false', compSign: f.compOpen ? '−' : '+',
+        toggleCompany: function () { self.setForm({ compOpen: !self.state.form.compOpen }); },
+        cName: f.cName, cReg: f.cReg, cAddr: f.cAddr, cContact: f.cContact,
+        setCName: function (e) { self.setForm({ cName: e.target.value }); },
+        setCReg: function (e) { self.setForm({ cReg: e.target.value }); },
+        setCAddr: function (e) { self.setForm({ cAddr: e.target.value }); },
+        setCContact: function (e) { self.setForm({ cContact: e.target.value }); },
+        hasError: !!st.error, error: st.error,
+        busy: st.busy,
+        submit: function () { self.makePdf(); },
+        submitText: st.busy ? 'Готовим PDF…' : (MAIL_ENABLED ? 'Отправить PDF на почту' : 'Скачать PDF'),
+        submitStyle: "width: 100%; margin-top: 18px; min-height: 56px; border: 0; font-family: 'Jura', sans-serif; font-size: 16px; letter-spacing: 0.04em; padding: 16px 20px; color: #FFFFFF; " + CLIP + (st.busy ? ' background: #4E6A88; cursor: progress' : ' background: #16263C'),
+        note: MAIL_ENABLED ? 'На почту придёт PDF с программой обучения, стоимостью и реквизитами организатора.' : 'Отправка на e-mail пока не подключена: PDF с программой, стоимостью и реквизитами организатора сохранится на ваше устройство.',
+        hasStatus: !!st.status, status: st.status,
+        statusStyle: 'margin: 12px 0 0; font-size: 14.5px; ' + (st.statusKind === 'ok' ? 'color: #2A547B' : st.statusKind === 'warn' ? 'color: #8A2A12' : 'color: #354D69')
+      },
+      org: {
+        name: ORG.name, reg: orgVal(ORG.regCode), regStyle: missStyle(ORG.regCode),
+        addr: orgVal(ORG.address), addrStyle: missStyle(ORG.address),
+        mail: orgVal(ORG.email), mailStyle: missStyle(ORG.email),
+        phone: orgVal(ORG.phone), phoneStyle: missStyle(ORG.phone),
+        site: ORG.site,
+        hasEhis: !!(ORG.ehisText && ORG.ehisUrl), noEhis: !(ORG.ehisText && ORG.ehisUrl),
+        ehisText: ORG.ehisText || '', ehisUrl: ORG.ehisUrl || '#'
+      },
+      trainer: { name: TRAINER.name }
+    };
+  }
+}
+
+</script>
+</body>
+</html>
