@@ -317,7 +317,7 @@ input{font:inherit}
 </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"rpm":{"editor":"range","default":0.08,"min":0,"max":3,"step":0.01,"unit":"об/мин","section":"Мозг: вращение"},"morph":{"editor":"range","default":0.8,"min":0,"max":12,"step":0.1,"unit":"цикл/мин","section":"Мозг: трансформация"},"depth":{"editor":"range","default":15,"min":0,"max":20,"step":0.5,"unit":"%","section":"Мозг: трансформация"},"width":{"editor":"range","default":65,"min":30,"max":120,"step":1,"unit":"% экрана","section":"Мозг: форма"},"brainShape":{"editor":"boolean","default":false,"section":"Мозг: форма"},"period":{"editor":"range","default":8,"min":3,"max":15,"step":0.5,"unit":"с","section":"Мозг: сердцебиение"},"amp":{"editor":"range","default":3.5,"min":0,"max":8,"step":0.5,"unit":"%","section":"Мозг: сердцебиение"},"impulse":{"editor":"range","default":100,"min":0,"max":300,"step":10,"unit":"%","section":"Мозг: сердцебиение"},"zoneSpeed":{"editor":"range","default":1.51,"min":0,"max":3,"step":0.01,"unit":"цикл/мин","section":"Фон: светлые и тёмные зоны"},"darkRange":{"editor":"range","default":35,"min":0,"max":100,"step":5,"unit":"% радиуса — смещение тёмных","section":"Фон: светлые и тёмные зоны"},"lightRange":{"editor":"range","default":70,"min":0,"max":100,"step":5,"unit":"% радиуса — смещение светлых","section":"Фон: светлые и тёмные зоны"},"sizeRange":{"editor":"range","default":24,"min":0,"max":50,"step":1,"unit":"% — изменение размера","section":"Фон: светлые и тёмные зоны"},"contrast":{"editor":"range","default":85,"min":0,"max":200,"step":5,"unit":"% — контраст зон","section":"Фон: светлые и тёмные зоны"},"darkSize":{"editor":"range","default":100,"min":30,"max":250,"step":5,"unit":"% — объём тёмных зон","section":"Фон: светлые и тёмные зоны"},"lightSize":{"editor":"range","default":100,"min":30,"max":250,"step":5,"unit":"% — объём светлых зон","section":"Фон: светлые и тёмные зоны"},"softness":{"editor":"range","default":100,"min":25,"max":300,"step":5,"unit":"% — плавность переходов","section":"Фон: светлые и тёмные зоны"},"$preview":{"width":1440,"height":2900}}'>
+<script type="text/x-dc" data-dc-script data-props='{"rpm":{"editor":"range","default":0.08,"min":0,"max":3,"step":0.01,"unit":"об/мин","section":"Мозг: вращение"},"morph":{"editor":"range","default":0.8,"min":0,"max":12,"step":0.1,"unit":"цикл/мин","section":"Мозг: трансформация"},"depth":{"editor":"range","default":15,"min":0,"max":20,"step":0.5,"unit":"%","section":"Мозг: трансформация"},"width":{"editor":"range","default":65,"min":30,"max":120,"step":1,"unit":"% экрана","section":"Мозг: форма"},"heroModel":{"editor":"enum","options":["Сфера","Мозг"],"default":"Мозг","section":"Мозг: форма"},"brainShape":{"editor":"boolean","default":false,"section":"Мозг: форма"},"period":{"editor":"range","default":8,"min":3,"max":15,"step":0.5,"unit":"с","section":"Мозг: сердцебиение"},"amp":{"editor":"range","default":3.5,"min":0,"max":8,"step":0.5,"unit":"%","section":"Мозг: сердцебиение"},"impulse":{"editor":"range","default":100,"min":0,"max":300,"step":10,"unit":"%","section":"Мозг: сердцебиение"},"zoneSpeed":{"editor":"range","default":1.51,"min":0,"max":3,"step":0.01,"unit":"цикл/мин","section":"Фон: светлые и тёмные зоны"},"darkRange":{"editor":"range","default":35,"min":0,"max":100,"step":5,"unit":"% радиуса — смещение тёмных","section":"Фон: светлые и тёмные зоны"},"lightRange":{"editor":"range","default":70,"min":0,"max":100,"step":5,"unit":"% радиуса — смещение светлых","section":"Фон: светлые и тёмные зоны"},"sizeRange":{"editor":"range","default":24,"min":0,"max":50,"step":1,"unit":"% — изменение размера","section":"Фон: светлые и тёмные зоны"},"contrast":{"editor":"range","default":85,"min":0,"max":200,"step":5,"unit":"% — контраст зон","section":"Фон: светлые и тёмные зоны"},"darkSize":{"editor":"range","default":100,"min":30,"max":250,"step":5,"unit":"% — объём тёмных зон","section":"Фон: светлые и тёмные зоны"},"lightSize":{"editor":"range","default":100,"min":30,"max":250,"step":5,"unit":"% — объём светлых зон","section":"Фон: светлые и тёмные зоны"},"softness":{"editor":"range","default":100,"min":25,"max":300,"step":5,"unit":"% — плавность переходов","section":"Фон: светлые и тёмные зоны"},"$preview":{"width":1440,"height":2900}}'>
 /* ===== SA-CORE: single source for catalog cards, program preview and PDF ===== */
 /* Price: RATE € per academic hour per participant. A module may get its own fixed `cost` later (overrides h * RATE). */
 var RATE = 35;
@@ -552,6 +552,85 @@ function icosphere(sub) {
   return { v: v, e: e };
 }
 var NET = icosphere(3);
+/* anatomical brain: points on a smooth surface (union of ellipsoids), linked into a triangle-like mesh */
+function brainModel() {
+  var seed = 7;
+  function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+  function ell(p, c, r) { /* approx signed distance to ellipsoid */
+    var x = (p[0] - c[0]) / r[0], y = (p[1] - c[1]) / r[1], z = (p[2] - c[2]) / r[2];
+    var k0 = Math.sqrt(x * x + y * y + z * z), k1 = Math.sqrt(x * x / (r[0] * r[0]) + y * y / (r[1] * r[1]) + z * z / (r[2] * r[2]));
+    return k1 > 0 ? k0 * (k0 - 1) / k1 : -Math.min(r[0], r[1], r[2]);
+  }
+  function cap(p, a, b, r) {
+    var pa = [p[0] - a[0], p[1] - a[1], p[2] - a[2]], ba = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
+    var h = Math.max(0, Math.min(1, (pa[0] * ba[0] + pa[1] * ba[1] + pa[2] * ba[2]) / (ba[0] * ba[0] + ba[1] * ba[1] + ba[2] * ba[2])));
+    return Math.hypot(pa[0] - ba[0] * h, pa[1] - ba[1] * h, pa[2] - ba[2] * h) - r;
+  }
+  function smin(a, b, k) { var h = Math.max(0, Math.min(1, 0.5 + 0.5 * (b - a) / k)); return b + (a - b) * h - k * h * (1 - h); }
+  function hemi(p, s) {
+    var d = ell(p, [0.0, 0.14, 0.36 * s], [1.0, 0.64, 0.40]);
+    d = smin(d, ell(p, [-0.5, 0.02, 0.34 * s], [0.52, 0.52, 0.38]), 0.12);   /* frontal */
+    d = smin(d, ell(p, [0.58, 0.04, 0.32 * s], [0.46, 0.46, 0.36]), 0.12);   /* occipital */
+    d = smin(d, ell(p, [0.02, -0.3, 0.42 * s], [0.56, 0.3, 0.3]), 0.1);      /* temporal */
+    return d;
+  }
+  function sdf(p) {
+    var d = Math.min(hemi(p, 1), hemi(p, -1));                                /* hard min keeps the fissure */
+    var cb = ell(p, [0.6, -0.52, 0], [0.4, 0.25, 0.56]);                      /* cerebellum */
+    d = smin(d, cb, 0.03);
+    /* lateral sulcus: a shallow crease between the temporal and frontal lobes */
+    var t = Math.max(0, Math.min(1, (p[0] + 0.45) / 0.95)), ly = -0.16 + 0.12 * t;
+    var lat = Math.max(0, Math.abs(p[2]) - 0.25);
+    if (p[0] > -0.5 && p[0] < 0.55) d += 0.05 * Math.exp(-Math.pow(p[1] - ly, 2) / 0.0025) * Math.min(1, lat * 6);
+    /* notch between the occipital lobe and the cerebellum */
+    if (p[0] > 0.3) d += 0.06 * Math.exp(-Math.pow(p[1] + 0.3, 2) / 0.003) * Math.min(1, (p[0] - 0.3) * 4);
+    d = smin(d, cap(p, [0.22, -0.32, 0], [0.34, -1.02, 0], 0.15), 0.08);      /* brain stem */
+    return d;
+  }
+  function grad(p) {
+    var h = 1e-3, d0 = sdf(p);
+    return [(sdf([p[0] + h, p[1], p[2]]) - d0) / h, (sdf([p[0], p[1] + h, p[2]]) - d0) / h, (sdf([p[0], p[1], p[2] + h]) - d0) / h];
+  }
+  /* candidates projected onto the surface */
+  var C = [];
+  for (var i = 0; i < 9000; i++) {
+    var p = [rnd() * 2.6 - 1.3, rnd() * 2.4 - 1.15, rnd() * 1.8 - 0.9];
+    for (var it = 0; it < 12; it++) {
+      var d = sdf(p), g = grad(p), gl = Math.hypot(g[0], g[1], g[2]) || 1;
+      p = [p[0] - d * g[0] / gl / gl, p[1] - d * g[1] / gl / gl, p[2] - d * g[2] / gl / gl];
+    }
+    if (Math.abs(sdf(p)) < 0.004 && p[1] > -1.0) C.push(p);
+  }
+  /* Poisson-disc thinning */
+  var R = 0.13, V = [];
+  C.forEach(function (p) {
+    for (var j = 0; j < V.length; j++) { var q = V[j]; if ((p[0] - q[0]) * (p[0] - q[0]) + (p[1] - q[1]) * (p[1] - q[1]) + (p[2] - q[2]) * (p[2] - q[2]) < R * R) return; }
+    V.push(p);
+  });
+  /* links: nearest neighbours within reach */
+  var E = [], seen = {};
+  for (var a = 0; a < V.length; a++) {
+    var nb = [];
+    for (var b = 0; b < V.length; b++) if (b !== a) {
+      var dd = Math.hypot(V[a][0] - V[b][0], V[a][1] - V[b][1], V[a][2] - V[b][2]);
+      if (dd < R * 1.7) nb.push([dd, b]);
+    }
+    nb.sort(function (x, y) { return x[0] - y[0]; });
+    nb.slice(0, 5).forEach(function (n) { var k = a < n[1] ? a + '_' + n[1] : n[1] + '_' + a; if (!seen[k]) { seen[k] = 1; E.push([a, n[1]]); } });
+  }
+  /* centre and scale to about the sphere's size */
+  var mn = [9, 9, 9], mx = [-9, -9, -9];
+  V.forEach(function (p) { for (var k = 0; k < 3; k++) { mn[k] = Math.min(mn[k], p[k]); mx[k] = Math.max(mx[k], p[k]); } });
+  var c = [(mn[0] + mx[0]) / 2, (mn[1] + mx[1]) / 2, (mn[2] + mx[2]) / 2], s = 1.0 / Math.max(mx[0] - c[0], mx[1] - c[1]);
+  V = V.map(function (p) { return [(p[0] - c[0]) * s, (p[1] - c[1]) * s, (p[2] - c[2]) * s]; });
+  return { v: V, e: E };
+}
+var BRAIN = null;   /* built on first use (~0.2 s) */
+function heroModel(cfg) {
+  if (!cfg.anat) return NET;
+  if (!BRAIN) BRAIN = brainModel();
+  return BRAIN;
+}
 var GLOWW = 0.02, CAM = 4.0, NODE_HALF = 0.05;
 var NNODE = NET.v.length * 6, NLINK = NET.e.length * 6, NV = NNODE + NLINK;
 var LUB = 0.15, DUB = 0.5;
@@ -596,7 +675,7 @@ function heroGL(cv) {
   return {
     gl: gl, cv: cv, data: data,
     asp: gl.getUniformLocation(pr, 'uAsp'), cam: gl.getUniformLocation(pr, 'uCam'), mode: gl.getUniformLocation(pr, 'uMode'),
-    P: NET.v.map(function () { return [0, 0, 0]; }), K: NET.v.map(function () { return 0; }), FD: NET.v.map(function () { return 1; })
+    P: [], K: [], FD: [], model: null
   };
 }
 function brain(v, mp, depth) {
@@ -628,8 +707,20 @@ function brainStrict(v, mp, depth) {
 }
 function beatEnv(s) { return Math.exp(-Math.pow((s - LUB) / 0.1, 2)) + 0.5 * Math.exp(-Math.pow((s - DUB) / 0.13, 2)); }
 function shape(v, mp, depth, cfg) { return cfg.strict ? brainStrict(v, mp, depth) : brain(v, mp, depth); }
+function anatShape(v, mp, depth) {
+  /* the anatomical brain keeps its form: only a slight, slow breathing of the surface */
+  var md = Math.min(depth, 0.03);
+  var r = 1 + md * Math.sin(v[0] * 3.1 + mp) * Math.sin(v[1] * 3.3 + mp * 1.2 + 1.0) * Math.sin(v[2] * 2.7 + mp * 0.8 + 2.0);
+  return [v[0] * r, v[1] * r, v[2] * r];
+}
 function heroFrame(R, dt, cfg) {
-  var gl = R.gl, cv = R.cv, d = R.data, P = R.P, K = R.K, FD = R.FD, N = NET.v.length;
+  var MOD = heroModel(cfg);
+  if (R.model !== MOD) {
+    R.model = MOD; R.sx = undefined; R.fresh = true; R.ANG = null;
+    R.P = MOD.v.map(function () { return [0, 0, 0]; }); R.K = MOD.v.map(function () { return 0; }); R.FD = MOD.v.map(function () { return 1; });
+  }
+  var NETM = MOD, anat = !!cfg.anat;
+  var gl = R.gl, cv = R.cv, d = R.data, P = R.P, K = R.K, FD = R.FD, N = NETM.v.length;
   var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
   var W = Math.round(cv.clientWidth * dpr), H = Math.round(cv.clientHeight * dpr);
   if (!W || !H) return;
@@ -640,32 +731,33 @@ function heroFrame(R, dt, cfg) {
   if (R.cyc === undefined) { R.cyc = 0; R.fresh = true; }
   if (R.bt >= cfg.period) { R.bt -= cfg.period; R.cyc += 1; R.fresh = true; }
   var ct = R.bt, depthM = cfg.depth / 100, amp = cfg.amp / 100;
-  var ay = R.ang, ax = 0.12 + Math.sin(R.mp * 0.3) * 0.05;
+  var ay = anat ? 0.3 + 0.55 * Math.sin(R.ang) : R.ang, ax = 0.12 + Math.sin(R.mp * 0.3) * 0.05;
   var cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax);
   function rot(x, y, z) { var x1 = x * cy + z * sy, z1 = -x * sy + z * cy; return [x1, y * cx - z1 * sx, y * sx + z1 * cx]; }
   if (R.fresh) {
     R.fresh = false;
     var best = 1e9, bi = 0;
     for (var q = 0; q < N; q++) {
-      var bq = shape(NET.v[q], R.mp, depthM, cfg), pq = rot(bq[0], bq[1], bq[2]);
+      var bq = anat ? anatShape(NETM.v[q], R.mp, depthM) : shape(NETM.v[q], R.mp, depthM, cfg), pq = rot(bq[0], bq[1], bq[2]);
       if (pq[2] > 0) { var dd = pq[0] * pq[0] + pq[1] * pq[1]; if (dd < best) { best = dd; bi = q; } }
     }
     R.start = bi;
     var c = R.cyc;
     R.field = [hash(c + 0.1) * 2 - 1, hash(c + 0.2) * 2 - 1, hash(c + 0.3) * 2 - 1, hash(c + 0.4) * 6.28];
   }
-  var vs = NET.v[R.start], F = R.field, MAXARR = 2.85, cyc = R.cyc;
+  var vs = NETM.v[R.start], F = R.field, MAXARR = 2.85, cyc = R.cyc;
   if (!R.ANG) { R.ANG = new Float32Array(N); R.JIT = new Float32Array(N); }
   var mx = 0, my = 0;
   for (var i = 0; i < N; i++) {
-    var v = NET.v[i];
-    var ang = Math.acos(Math.max(-1, Math.min(1, v[0] * vs[0] + v[1] * vs[1] + v[2] * vs[2])));
+    var v = NETM.v[i];
+    var ang = anat ? Math.min(Math.PI, Math.PI * Math.hypot(v[0] - vs[0], v[1] - vs[1], v[2] - vs[2]) / 2.0)
+                   : Math.acos(Math.max(-1, Math.min(1, v[0] * vs[0] + v[1] * vs[1] + v[2] * vs[2])));
     var fieldJ = 0.5 + 0.5 * Math.sin((v[0] * F[0] + v[1] * F[1] + v[2] * F[2]) * 3.2 + F[3]);
     var jit = 0.6 * fieldJ + 0.4 * hash(i * 1.37 + cyc * 7.1);
     R.ANG[i] = ang; R.JIT[i] = jit;
     var bw = beatEnv(ct - (ang / Math.PI) * 0.5 * (0.7 + 0.6 * jit));
     var tremor = Math.sin(v[0] * 13.0 + v[1] * 11.0 + v[2] * 9.0 + ct * 40.0);
-    var s0 = shape(v, R.mp, depthM, cfg);
+    var s0 = anat ? anatShape(v, R.mp, depthM) : shape(v, R.mp, depthM, cfg);
     var loc = 1 - amp * bw * 0.6 + amp * 0.5 * bw * tremor;
     var p = rot(s0[0] * 0.95 * loc, s0[1] * 0.95 * loc, s0[2] * 0.95 * loc);
     P[i][0] = p[0]; P[i][1] = p[1]; P[i][2] = p[2];
@@ -681,13 +773,20 @@ function heroFrame(R, dt, cfg) {
     if (Math.abs(P[a][1]) > maxY) maxY = Math.abs(P[a][1]);
   }
   var target = maxN > 0 ? (cfg.width / 100) * 0.97 / maxN : 1;
+  if (anat) {
+    /* same scale on every axis, and the brain must also fit the height of the first screen */
+    var tY = maxY > 0 ? 0.57 / (maxY * FOC / CAM) : target;
+    target = Math.min(target, tY);
+  }
   R.sx = R.sx === undefined ? target : R.sx + (target - R.sx) * 0.04;
   for (var i2 = 0; i2 < N; i2++) {
     P[i2][0] *= R.sx;
-    var rr = Math.sqrt(Math.pow(P[i2][0] / (maxX * R.sx * 1.02), 2) + Math.pow(P[i2][1] / (maxY * 1.02), 2));
+    if (anat) { P[i2][1] *= R.sx; P[i2][2] *= R.sx; }
+    var rr = Math.sqrt(Math.pow(P[i2][0] / (maxX * R.sx * 1.02), 2) + Math.pow(P[i2][1] / (maxY * (anat ? R.sx : 1) * 1.02), 2));
+    if (anat) rr = Math.max(0, rr - 0.45);   /* keep the silhouette bright */
     var edge = 1 - Math.min(1, Math.max(0, (rr - 0.3) / 0.7));
     edge = edge * edge * (3 - 2 * edge);
-    var dpt = Math.min(1, Math.max(0, (P[i2][2] + 1.1) / 2.2));
+    var dpt = Math.min(1, Math.max(0, (P[i2][2] / (anat ? R.sx : 1) + 1.1) / 2.2));
     FD[i2] = edge * (0.45 + 0.55 * dpt);
     var tc = ct - DUB, kk = 0;
     if (tc > 0) {
@@ -711,8 +810,8 @@ function heroFrame(R, dt, cfg) {
     put(C[0] + hs, C[1] + hs, C[2], 1, 1, rz, kj, FD[j]);
     put(C[0] - hs, C[1] + hs, C[2], -1, 1, rz, kj, FD[j]);
   }
-  for (var e = 0; e < NET.e.length; e++) {
-    var ia = NET.e[e][0], ib = NET.e[e][1], A = P[ia], B = P[ib];
+  for (var e = 0; e < NETM.e.length; e++) {
+    var ia = NETM.e[e][0], ib = NETM.e[e][1], A = P[ia], B = P[ib];
     var ke = (K[ia] + K[ib]) * 0.5, fe = (FD[ia] + FD[ib]) * 0.5;
     var dx = B[0] - A[0], dy = B[1] - A[1], dz = B[2] - A[2];
     var ex = (A[0] + B[0]) / 2, ey = (A[1] + B[1]) / 2, ez = (A[2] + B[2]) / 2;
@@ -735,13 +834,14 @@ function heroFrame(R, dt, cfg) {
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.uniform1f(R.asp, asp);
   gl.uniform1f(R.cam, CAM);
-  gl.bufferSubData(gl.ARRAY_BUFFER, 0, d);
+  var nNode = N * 6, nLink = NETM.e.length * 6;
+  gl.bufferSubData(gl.ARRAY_BUFFER, 0, d.subarray(0, (nNode + nLink) * 8));
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.ONE, gl.ONE);
   gl.uniform1f(R.mode, 1);
-  gl.drawArrays(gl.TRIANGLES, NNODE, NLINK);
+  gl.drawArrays(gl.TRIANGLES, nNode, nLink);
   gl.uniform1f(R.mode, 0);
-  gl.drawArrays(gl.TRIANGLES, 0, NNODE);
+  gl.drawArrays(gl.TRIANGLES, 0, nNode);
   gl.disable(gl.BLEND);
 }
 /* ===== /hero ===== */
@@ -872,7 +972,8 @@ class Component extends DCLogic {
       if (R) heroFrame(R, reduce ? 0 : dt, {
         rpm: pr.rpm ?? 0.08, morph: pr.morph ?? 0.8, depth: pr.depth ?? 15,
         period: pr.period ?? 8, amp: pr.amp ?? 3.5, impulse: pr.impulse ?? 100,
-        width: pr.width ?? 65, strict: pr.brainShape ?? false
+        width: pr.width ?? 65, strict: pr.brainShape ?? false,
+        anat: pr.heroModel === 1 || /мозг|brain/i.test(String(pr.heroModel || ''))
       });
       zT += dt;
       if (zT - zLast >= 0.05) { /* ~20 updates/s is plenty for a drift this slow */
